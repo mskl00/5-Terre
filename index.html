@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz IPMA Livello D - APM</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+  }
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    overflow: hidden;
+  }
+  header {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #fff;
+    padding: 28px 30px;
+    text-align: center;
+  }
+  header h1 { font-size: 26px; margin-bottom: 6px; }
+  header p { opacity: 0.9; font-size: 14px; }
+  .main { padding: 30px; }
+  .start-screen { text-align: center; padding: 40px 20px; }
+  .start-screen h2 { color: #1e3c72; margin-bottom: 16px; font-size: 22px; }
+  .start-screen p { color: #555; margin-bottom: 24px; line-height: 1.6; }
+  .config-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .config-row label { color: #555; font-weight: 500; }
+  .config-row select, .config-row input {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    font-size: 15px;
+    background: #fff;
+  }
+  .btn {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #fff;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(30,60,114,0.4); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-secondary {
+    background: #f0f0f0;
+    color: #333;
+  }
+  .btn-secondary:hover { background: #e0e0e0; box-shadow: none; }
+  .progress-bar {
+    background: #f0f0f0;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #1e3c72, #2a5298);
+    transition: width 0.3s;
+  }
+  .question-meta {
+    display: flex;
+    justify-content: space-between;
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+  .question-text {
+    font-size: 18px;
+    line-height: 1.5;
+    color: #1e3c72;
+    margin-bottom: 22px;
+    font-weight: 600;
+  }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #fff;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    line-height: 1.4;
+  }
+  .option:hover:not(.disabled) { border-color: #2a5298; background: #f5f8ff; }
+  .option.disabled { cursor: default; }
+  .option .letter {
+    font-weight: 700;
+    color: #2a5298;
+    min-width: 24px;
+  }
+  .option.correct {
+    border-color: #28a745;
+    background: #e6f7ec;
+  }
+  .option.correct .letter { color: #28a745; }
+  .option.wrong {
+    border-color: #dc3545;
+    background: #fbeaec;
+  }
+  .option.wrong .letter { color: #dc3545; }
+  .explanation {
+    margin-top: 20px;
+    padding: 18px;
+    border-radius: 10px;
+    background: #f8f9fc;
+    border-left: 4px solid #2a5298;
+  }
+  .explanation.correct { border-left-color: #28a745; background: #e6f7ec; }
+  .explanation.wrong { border-left-color: #dc3545; background: #fbeaec; }
+  .explanation h3 { margin-bottom: 8px; font-size: 16px; }
+  .explanation h3.correct { color: #28a745; }
+  .explanation h3.wrong { color: #dc3545; }
+  .explanation p { color: #444; line-height: 1.6; font-size: 15px; }
+  .nav {
+    margin-top: 22px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .results {
+    text-align: center;
+    padding: 30px 20px;
+  }
+  .results h2 { color: #1e3c72; font-size: 28px; margin-bottom: 20px; }
+  .score-circle {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 26px;
+    box-shadow: 0 10px 30px rgba(30,60,114,0.3);
+  }
+  .score-circle .score-number { font-size: 48px; font-weight: 700; }
+  .score-circle .score-total { opacity: 0.9; font-size: 16px; }
+  .score-pct { font-size: 22px; color: #2a5298; font-weight: 600; margin-bottom: 24px; }
+  .verdict { font-size: 18px; margin-bottom: 24px; padding: 14px; border-radius: 10px; }
+  .verdict.pass { background: #e6f7ec; color: #1b7a35; border: 2px solid #28a745; }
+  .verdict.fail { background: #fbeaec; color: #a02030; border: 2px solid #dc3545; }
+  .review-list {
+    text-align: left;
+    margin-top: 24px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+  }
+  .review-item {
+    padding: 10px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+  }
+  .review-item:last-child { border-bottom: none; }
+  .review-item .q-title { font-weight: 600; color: #1e3c72; margin-bottom: 4px; }
+  .review-item.correct-row { background: #f0faf3; }
+  .review-item.wrong-row { background: #fcf3f4; }
+  footer {
+    text-align: center;
+    padding: 16px;
+    color: #888;
+    font-size: 13px;
+    border-top: 1px solid #eee;
+  }
+  @media (max-width: 600px) {
+    .main { padding: 20px; }
+    header h1 { font-size: 20px; }
+    .question-text { font-size: 16px; }
+    .option { padding: 12px 14px; font-size: 14px; }
+    .score-circle { width: 140px; height: 140px; }
+    .score-circle .score-number { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Quiz IPMA Livello D – APM</h1>
+    <p>Simulazione d'esame con domande randomizzate</p>
+  </header>
+  <div class="main" id="app"></div>
+  <footer>60 domande disponibili • Soglia di sufficienza: 65%</footer>
+</div>
+
+<script>
+// ============================================================
+// BANCA DOMANDE - IPMA Livello D / APM
+// Risposte corrette basate su APM Body of Knowledge e ICB4
+// ============================================================
+const QUESTIONS = [
+  {
+    id: 1,
+    q: "Un project manager può assumersi la responsabilità delle proprie azioni:",
+    options: [
+      "modificando le condizioni contrattuali con un fornitore.",
+      "consultando gli stakeholder interni senior.",
+      "riallineando la propria job description alle attività effettive.",
+      "assumendosi la titolarità sia dei risultati positivi sia di quelli negativi."
+    ],
+    correct: 3,
+    explanation: "L'accountability (responsabilità personale) nel project management si dimostra assumendo la titolarità (ownership) integrale di tutti gli esiti del progetto, positivi o negativi. Le altre opzioni sono manovre per evitare la responsabilità o attività operative scollegate dal concetto etico di assunzione di responsabilità personale."
+  },
+  {
+    id: 2,
+    q: "Quale tra i seguenti NON è un beneficio della produzione di una visione d'insieme ad alto livello del progetto?",
+    options: [
+      "Ruoli e responsabilità uniformi",
+      "Pianificazione limitata",
+      "Terminologia coerente",
+      "Documentazione standard"
+    ],
+    correct: 1,
+    explanation: "Una visione d'insieme ad alto livello serve proprio a supportare una pianificazione completa, non 'limitata'. Uniformità di ruoli, coerenza terminologica e documentazione standard sono invece benefici diretti. 'Pianificazione limitata' è un effetto negativo, non un beneficio."
+  },
+  {
+    id: 3,
+    q: "Qual è il modo migliore con cui un project manager potrebbe sviluppare e ottenere l'accordo sul piano di progetto?",
+    options: [
+      "Usare una comunicazione efficace",
+      "Usare il transition management",
+      "Adottare uno stile di management proattivo",
+      "Adottare uno stile di management reattivo"
+    ],
+    correct: 0,
+    explanation: "Secondo l'APM BoK, l'accordo sul piano di progetto richiede negoziazione, coinvolgimento e allineamento degli stakeholder: tutti elementi che dipendono direttamente da una comunicazione efficace. Transition management e stili manageriali sono strumenti complementari ma non il veicolo primario del consenso sul piano."
+  },
+  {
+    id: 4,
+    q: "Nel valutare l'uso dei fattori critici di successo, quale delle seguenti affermazioni dimostra che essi vengono utilizzati correttamente?",
+    options: [
+      "I fattori critici di successo rimangono fissi per tutta la durata del progetto.",
+      "I fattori critici di successo misurano se il progetto è in anticipo e/o in ritardo rispetto alla performance.",
+      "I fattori critici di successo derivano dai KPI per misurare se il progetto sta raggiungendo gli obiettivi strategici.",
+      "I fattori critici di successo sono direttamente allineati sia agli obiettivi organizzativi sia a quelli di progetto."
+    ],
+    correct: 3,
+    explanation: "I Critical Success Factors (CSF) devono essere allineati sia agli obiettivi organizzativi sia a quelli di progetto per garantire coerenza strategica. Non sono fissi (evolvono), non misurano tempi (quello sono i KPI), e sono i KPI a derivare dai CSF, non viceversa."
+  },
+  {
+    id: 5,
+    q: "Quale dei seguenti comportamenti del project manager ha maggiori probabilità di favorire una comunicazione aperta?",
+    options: [
+      "Coinvolgere gli stakeholder in una comunicazione bidirezionale",
+      "Creare un piano di comunicazione di progetto",
+      "Condurre briefing del team di progetto",
+      "Parlare con i membri del team di progetto"
+    ],
+    correct: 0,
+    explanation: "La comunicazione aperta richiede bidirezionalità: ascolto attivo e possibilità di feedback. Piani, briefing e semplici conversazioni unidirezionali (broadcast) non garantiscono l'apertura necessaria a far emergere informazioni, preoccupazioni e idee dagli stakeholder."
+  },
+  {
+    id: 6,
+    q: "Il configuration management contribuisce alla configurazione dell'ambito:",
+    options: [
+      "assicurando che i costi di progetto siano controllati.",
+      "minimizzando carenze, errori e ampliamenti indesiderati dell'ambito.",
+      "impedendo modifiche all'ambito del progetto.",
+      "controllando le modifiche al piano di project management."
+    ],
+    correct: 1,
+    explanation: "Il configuration management garantisce tracciabilità e integrità dei deliverable, minimizzando errori, omissioni e scope creep. Non impedisce le modifiche (le gestisce in modo controllato), non riguarda direttamente i costi né l'intero piano di PM, ma specificamente la baseline di configurazione dei deliverable."
+  },
+  {
+    id: 7,
+    q: "Che cosa deve fare un project manager quando assegna le priorità e decide i requisiti e i criteri di accettazione di un progetto?",
+    options: [
+      "Documentare e concordare la gerarchia degli obiettivi di progetto",
+      "Documentare e concordare i bisogni e i requisiti dello sponsor",
+      "Documentare e concordare i bisogni e i requisiti degli stakeholder",
+      "Documentare e concordare le lesson learned"
+    ],
+    correct: 2,
+    explanation: "I requisiti e i criteri di accettazione derivano da TUTTI gli stakeholder rilevanti, non solo dallo sponsor. Limitarsi allo sponsor escluderebbe utenti finali, team operativi e regolatori. La gerarchia degli obiettivi e le lesson learned sono correlate ma non sono ciò che si documenta specificamente per i requisiti."
+  },
+  {
+    id: 8,
+    q: "Quale delle seguenti spiega meglio perché un project manager dovrebbe affrontare le proprie carenze personali e professionali?",
+    options: [
+      "Affrontare le carenze personali e professionali porterà sempre al completamento delle attività.",
+      "Affrontare le carenze personali e professionali dovrebbe rimuovere gli ostacoli al successo professionale.",
+      "Affrontare le carenze personali e professionali porterà sempre al successo professionale.",
+      "Affrontare le carenze personali e professionali dovrebbe dimostrare assunzione di responsabilità rispetto ai problemi."
+    ],
+    correct: 1,
+    explanation: "Affrontare le proprie carenze è un'azione formativa che rimuove ostacoli al successo, ma non lo garantisce automaticamente. Le opzioni con 'sempre' sono troppo assolute (nessuno sviluppo garantisce il successo). L'opzione D confonde 'affrontare carenze' con 'assunzione di responsabilità per problemi', che sono concetti distinti."
+  },
+  {
+    id: 9,
+    q: "Che cosa potrebbe fare il project manager per ottenere al meglio un consenso iniziale sul progetto?",
+    options: [
+      "Organizzare e facilitare un workshop di avvio del progetto",
+      "Comunicare a tutti i membri del team i loro ruoli",
+      "Produrre un registro dei rischi",
+      "Iniziare il prima possibile per risparmiare tempo"
+    ],
+    correct: 0,
+    explanation: "Il kick-off workshop è lo strumento per eccellenza per costruire consenso iniziale: riunisce stakeholder chiave, chiarisce obiettivi, ruoli, rischi e aspettative in modo collaborativo. Comunicare ruoli o produrre un risk register sono attività successive; iniziare senza consenso è controproducente."
+  },
+  {
+    id: 10,
+    q: "Quale delle seguenti affermazioni, relativa al modo in cui un soggetto responsabile valuta e seleziona potenziali fornitori, è vera?",
+    options: [
+      "Fa in modo che la prima risposta ottenga il punteggio più alto.",
+      "Fa in modo che la proposta meno costosa ottenga il punteggio più alto.",
+      "Definisce e applica una serie di passaggi logici nel processo di selezione.",
+      "Sviluppa i criteri di selezione al ricevimento delle risposte alla gara."
+    ],
+    correct: 2,
+    explanation: "Una selezione responsabile richiede un processo strutturato, trasparente e ripetibile definito PRIMA della gara. Dare priorità a rapidità o prezzo viola i principi di procurement; definire i criteri a posteriori è manipolativo e non etico."
+  },
+  {
+    id: 11,
+    q: "L'allineamento di un progetto alla mission e alla vision dell'organizzazione e la conformità ai vincoli e agli obiettivi organizzativi possono essere efficacemente ottenuti mediante:",
+    options: [
+      "la definizione di un budget di progetto dettagliato.",
+      "l'uso di sistemi di controllo gestionale diagnostici.",
+      "lo sviluppo di una balanced scorecard.",
+      "la redazione di una strategia di comunicazione di progetto."
+    ],
+    correct: 2,
+    explanation: "La Balanced Scorecard (Kaplan & Norton) è lo strumento manageriale specificamente progettato per tradurre mission e vision in obiettivi misurabili lungo quattro prospettive, garantendo allineamento strategico. Budget, sistemi diagnostici e piani di comunicazione sono strumenti tattici, non strategici."
+  },
+  {
+    id: 12,
+    q: "Quale delle seguenti domande è la più appropriata che un project manager dovrebbe porsi quando valuta decisioni e azioni?",
+    options: [
+      "La decisione o l'azione migliorerà la comunicazione?",
+      "La decisione o l'azione informerà la strategia del progetto?",
+      "La decisione o l'azione spiegherà come raggiungere i target?",
+      "La decisione o l'azione metterà a rischio l'obiettivo del progetto?"
+    ],
+    correct: 3,
+    explanation: "La valutazione critica di decisioni si fonda sul principio 'primo, non nuocere': verificare l'impatto sugli obiettivi di progetto è il filtro fondamentale. Migliorare comunicazione, informare la strategia o spiegare target sono elementi secondari rispetto al non compromettere lo scopo primario del progetto."
+  },
+  {
+    id: 13,
+    q: "Se il costo di implementazione della risposta non è un problema, qual è la migliore strategia per cogliere le opportunità associate a un rischio positivo?",
+    options: [
+      "Mitigare l'opportunità",
+      "Accettare l'opportunità",
+      "Sfruttare l'opportunità",
+      "Trasferire l'opportunità"
+    ],
+    correct: 2,
+    explanation: "Per i rischi positivi (opportunità) le strategie sono: Exploit (sfruttare), Enhance (potenziare), Share (condividere), Accept (accettare). 'Sfruttare' è la strategia più aggressiva che assicura al 100% che l'opportunità si realizzi, ideale quando il costo non è un vincolo. 'Mitigare' è per i rischi negativi."
+  },
+  {
+    id: 14,
+    q: "Nel determinare i key performance indicators, quale affermazione descrive meglio come possono essere utilizzati?",
+    options: [
+      "I key performance indicators possono essere utilizzati solo per misurare la puntualità della consegna del progetto.",
+      "I key performance indicators possono essere indicatori anticipatori o ritardati, quindi precedere o seguire un evento.",
+      "I key performance indicators devono rimanere fissi per tutta la durata del progetto.",
+      "I key performance indicators possono essere usati per definire i fattori critici di successo."
+    ],
+    correct: 1,
+    explanation: "I KPI possono essere leading (anticipatori, predittivi) o lagging (ritardati, confermativi). I leading indicators predicono performance future; i lagging misurano risultati già raggiunti. Non sono limitati alla puntualità, non sono fissi e derivano DAI CSF, non li definiscono."
+  },
+  {
+    id: 15,
+    q: "Quale delle seguenti NON è una caratteristica di una strategia negoziale?",
+    options: [
+      "Best Alternative to a Negotiated Agreement (BATNA)",
+      "Condizioni di budget e dinamiche politiche",
+      "Scenari what-if e bilanciamento del potere",
+      "Team negoziale, con ruoli e responsabilità"
+    ],
+    correct: 1,
+    explanation: "La strategia negoziale include BATNA, scenari what-if, bilanciamento del potere, composizione del team negoziale. 'Condizioni di budget e dinamiche politiche' sono elementi di contesto/ambiente in cui la negoziazione avviene, non caratteristiche intrinseche della strategia stessa."
+  },
+  {
+    id: 16,
+    q: "Quale delle seguenti è la modalità più probabile con cui un project manager riesaminerebbe i criteri di successo del progetto?",
+    options: [
+      "Pianificando riunioni mensili per verificare l'avanzamento fino a quel momento",
+      "Pianificando riunioni a intervalli regolari per sponsor e stakeholder",
+      "Riesaminando settimanalmente il carico di lavoro con il team di progetto",
+      "Verificando regolarmente l'avanzamento del progetto rispetto ai criteri di successo formali e informali"
+    ],
+    correct: 3,
+    explanation: "Il riesame dei criteri di successo richiede confronto sistematico tra avanzamento reale e criteri sia formali (documentati) sia informali (aspettative percepite). Riunioni generiche con stakeholder o review del carico di lavoro non sono specificamente review dei criteri di successo."
+  },
+  {
+    id: 17,
+    q: "Quale delle seguenti affermazioni è falsa? Quando identifica la necessità di approvvigionare un prodotto o servizio, il project manager:",
+    options: [
+      "prepara, produce o raccoglie le informazioni necessarie come input.",
+      "definisce la documentazione di gara e i criteri di selezione in base ai bisogni.",
+      "definisce quale fornitore verrà incaricato del lavoro.",
+      "definisce le motivazioni dell'approvvigionamento o della partnership sulla base dei bisogni."
+    ],
+    correct: 2,
+    explanation: "Il project manager NON decide unilateralmente il fornitore: la selezione avviene tramite un processo strutturato di gara con criteri oggettivi, spesso con un comitato di valutazione. Le altre opzioni descrivono correttamente le attività preparatorie all'approvvigionamento."
+  },
+  {
+    id: 18,
+    q: "Che cosa dovrebbe essere considerato quando si pianifica un'attività di progetto in cui il pubblico generale potrebbe essere esposto a rischio?",
+    options: [
+      "Normative in materia di salute e sicurezza",
+      "Norme urbanistiche / di pianificazione",
+      "Normativa ambientale",
+      "Normativa sul lavoro"
+    ],
+    correct: 0,
+    explanation: "Quando il pubblico è esposto a rischi, la normativa Health & Safety è quella primaria e direttamente applicabile. La normativa sul lavoro protegge i lavoratori, quella urbanistica riguarda l'uso del suolo, quella ambientale l'ecosistema: tutte importanti, ma non specifiche per la protezione del pubblico generale."
+  },
+  {
+    id: 19,
+    q: "Quale sarebbe l'approccio migliore per un project manager nell'identificare aree di apprendimento e sviluppo personale?",
+    options: [
+      "Ignorare il feedback del team ma confrontarsi con lo sponsor di progetto",
+      "Misurare la propria performance, usare il feedback e poi riesaminare",
+      "Identificare corsi di formazione e poi discuterne con il line manager",
+      "Aspettare che il line manager comunichi se è necessario migliorare"
+    ],
+    correct: 1,
+    explanation: "Lo sviluppo personale efficace segue un ciclo di auto-consapevolezza: misurare la propria performance, raccogliere feedback da più fonti, riflettere e riesaminare. Ignorare feedback, delegare interamente al line manager o attendere passivamente sono approcci che non dimostrano ownership del proprio sviluppo."
+  },
+  {
+    id: 20,
+    q: "Il reporting by exception sull'avanzamento verrebbe di solito utilizzato quando:",
+    options: [
+      "il team di progetto non ha un leader.",
+      "il team di progetto ha contractor esterni.",
+      "il team di progetto è esperto.",
+      "il team di progetto è di nuova costituzione."
+    ],
+    correct: 2,
+    explanation: "Il reporting by exception (si riporta solo quando si esce da soglie predefinite) presuppone autonomia e capacità di self-management: appropriato per team esperti. Team nuovi, senza leader o misti con contractor richiedono reporting più frequente e strutturato per monitoraggio costante."
+  },
+  {
+    id: 21,
+    q: "Come project manager hai identificato un rischio commerciale ad alto impatto, adatto a essere mitigato tramite trasferimento. Quale delle seguenti è l'azione più appropriata per affrontare questo rischio?",
+    options: [
+      "Trasferire la proprietà del rischio al responsabile salute e sicurezza",
+      "Escalare la proprietà del rischio allo sponsor e allo steering committee",
+      "Fare in modo che il rischio sia assunto da una compagnia assicurativa",
+      "Fare in modo che la proprietà del rischio sia assunta dal risk manager"
+    ],
+    correct: 2,
+    explanation: "Il trasferimento del rischio in senso tecnico significa spostare l'impatto finanziario a una terza parte: l'assicurazione è lo strumento classico. Spostare l'ownership interna (H&S officer, risk manager, sponsor) non è 'trasferimento' ma delega/escalation interna: il rischio resta nell'organizzazione."
+  },
+  {
+    id: 22,
+    q: "Identificare le conseguenze sociali e ambientali di un progetto aiuterà a garantire che il progetto:",
+    options: [
+      "rispetti i principi e gli obiettivi di sostenibilità.",
+      "sia allineato ai codici di condotta appropriati.",
+      "stabilisca standard professionali pertinenti.",
+      "sviluppi i protocolli richiesti in materia di salute e sicurezza."
+    ],
+    correct: 0,
+    explanation: "La triple bottom line (persone, pianeta, profitto) è il cuore della sostenibilità: considerare impatti sociali e ambientali è per definizione garantire aderenza ai principi di sostenibilità. Codici di condotta, standard professionali e H&S sono ambiti correlati ma distinti."
+  },
+  {
+    id: 23,
+    q: "Quale delle seguenti condizioni ha maggiori probabilità di facilitare una comunicazione aperta, onesta e franca?",
+    options: [
+      "Un sistema di ricompense e punizioni",
+      "Consentire disaccordo e conflitto",
+      "Un clima di rispetto reciproco",
+      "Un approccio forte alla leadership"
+    ],
+    correct: 2,
+    explanation: "La psychological safety (sicurezza psicologica), costruita su rispetto reciproco, è la condizione necessaria per la comunicazione aperta. Ricompense/punizioni generano politiche difensive; consentire il conflitto non basta senza rispetto; una leadership 'forte' può intimidire e inibire la franchezza."
+  },
+  {
+    id: 24,
+    q: "Quando assegna le priorità e decide i requisiti e i criteri di accettazione di un progetto, un project manager dovrebbe documentare e concordare:",
+    options: [
+      "le lesson learned.",
+      "i bisogni e i requisiti degli stakeholder.",
+      "il piano di progetto e il budget finanziario.",
+      "la gerarchia degli obiettivi di progetto."
+    ],
+    correct: 1,
+    explanation: "Requisiti e criteri di accettazione derivano dai bisogni di tutti gli stakeholder rilevanti: documentarli e concordarli formalmente è la base per evitare ambiguità e rilavorazioni. Piano, budget e gerarchia degli obiettivi derivano dai requisiti; le lesson learned sono un output, non un input."
+  },
+  {
+    id: 25,
+    q: "Quale delle seguenti affermazioni descrive meglio come si può raggiungere un accordo da un processo negoziale?",
+    options: [
+      "Fa sempre uso di strumenti e tecniche di best practice.",
+      "Può essere raggiunto in un arco temporale esteso e può procedere per fasi.",
+      "Può essere raggiunto concentrandosi su guadagni di breve termine per entrambe le parti.",
+      "Fa sempre uso della Best Alternative to a Negotiated Agreement (BATNA)."
+    ],
+    correct: 1,
+    explanation: "Le negoziazioni complesse sono tipicamente multi-fase e si sviluppano nel tempo: negoziare per step permette di costruire fiducia e risolvere questioni progressivamente. Le opzioni con 'sempre' sono troppo assolute; concentrarsi sul breve termine mina accordi sostenibili di lungo periodo."
+  },
+  {
+    id: 26,
+    q: "Preparare e implementare un contingency plan con maggiore probabilità aiuterà a:",
+    options: [
+      "assicurare che il rischio degli stakeholder sia controllato.",
+      "migliorare l'accuratezza di tempi e costi.",
+      "ridurre il costo della mitigazione del rischio.",
+      "affrontare rischi e opportunità."
+    ],
+    correct: 3,
+    explanation: "I contingency plan sono piani di risposta preparati in anticipo per gestire rischi E opportunità qualora si manifestino. Non controllano solo uno specifico rischio stakeholder, non migliorano direttamente stime di tempi/costi, e non necessariamente riducono il costo della mitigazione."
+  },
+  {
+    id: 27,
+    q: "Quale delle seguenti aiuterebbe un project manager a controllare la performance rispetto al piano di progetto e ad adottare azioni correttive ove necessario?",
+    options: [
+      "Una work breakdown structure integrata",
+      "Un registro integrato delle lesson learned",
+      "Un sistema integrato di reporting di progetto",
+      "Un piano di comunicazione integrato"
+    ],
+    correct: 2,
+    explanation: "Un integrated project reporting system fornisce dati consolidati su tempi, costi, ambito e qualità, consentendo il confronto con la baseline e l'innesco di azioni correttive. WBS definisce il lavoro, lesson learned sono retrospettive, piano di comunicazione definisce flussi informativi ma non misura performance."
+  },
+  {
+    id: 28,
+    q: "Nel definire e sviluppare la gerarchia degli obiettivi di progetto, un project manager dovrebbe:",
+    options: [
+      "creare una work breakdown structure adeguata e i work package.",
+      "stabilire la relazione tra gli obiettivi organizzativi e quelli di progetto.",
+      "stabilire i bisogni dei soli stakeholder interni chiave.",
+      "creare e comunicare il project charter a tutti gli stakeholder."
+    ],
+    correct: 1,
+    explanation: "La goal hierarchy deriva dagli obiettivi organizzativi strategici fino agli obiettivi operativi di progetto: stabilire questa relazione garantisce allineamento strategico. WBS è strumento di scope, limitarsi a stakeholder interni è riduttivo, il project charter è un output del processo di inception."
+  },
+  {
+    id: 29,
+    q: "Quando cerca di superare la resistenza al cambiamento da parte di coloro che sono maggiormente impattati dall'iniziativa di cambiamento, un project manager dovrebbe:",
+    options: [
+      "collaborare con lo sponsor.",
+      "progettare work package gestibili.",
+      "progettare un piano di intervento coerente.",
+      "comunicare con tutti gli stakeholder."
+    ],
+    correct: 2,
+    explanation: "La resistenza di chi è maggiormente impattato richiede un intervention plan strutturato e coerente (formazione, supporto, coinvolgimento, incentivi) mirato sui soggetti specifici. La comunicazione generica a tutti gli stakeholder non è sufficientemente mirata; lo sponsor supporta ma non risolve la resistenza sul campo."
+  },
+  {
+    id: 30,
+    q: "Quale delle seguenti ha maggiori probabilità di aiutare un project manager a definire i work package?",
+    options: [
+      "Lo scopo della goal hierarchy",
+      "Le risorse richieste e la loro durata",
+      "Le finalità e gli obiettivi del progetto",
+      "L'ambiente in cui il progetto è collocato"
+    ],
+    correct: 1,
+    explanation: "I work package sono definiti operativamente sulla base delle risorse (persone, materiali, competenze) necessarie e della loro durata stimata, che determinano dimensione e delimitazione dei pacchetti di lavoro. Goal hierarchy, obiettivi e ambiente sono input di contesto più strategici."
+  },
+  {
+    id: 31,
+    q: "Quale delle seguenti attività dovrebbe essere svolta dal project manager quando seleziona un fornitore per il progetto?",
+    options: [
+      "Scegliere un fornitore già utilizzato in passato, poiché conoscerà i requisiti.",
+      "Usare sempre il preventivo più economico, perché i progetti sono guidati dai costi, purché soddisfi le condizioni contrattuali.",
+      "Assegnare il lavoro su raccomandazione di altri all'interno dell'azienda, purché le condizioni contrattuali siano in generale soddisfatte.",
+      "Indire una gara e valutare le offerte verificandone il dettaglio, assegnando poi al fornitore che soddisfa tutti i requisiti."
+    ],
+    correct: 3,
+    explanation: "La selezione responsabile richiede un processo formale di gara con valutazione oggettiva dei dettagli delle offerte rispetto a criteri predefiniti. Scegliere sulla base di abitudini, solo prezzo o raccomandazioni informali viola i principi di fair procurement e trasparenza."
+  },
+  {
+    id: 32,
+    q: "Un project manager che intenda identificare come influenzare la strategia organizzativa deve:",
+    options: [
+      "usare la propria rete per influenzare il board circa le proprie opinioni.",
+      "mostrare agli stakeholder che i progetti falliti riflettono una strategia mal definita.",
+      "riflettere sugli obiettivi strategici predefiniti e sugli strumenti e metodi necessari per metterli in discussione.",
+      "applicare all'organizzazione modelli teorici di strategia."
+    ],
+    correct: 2,
+    explanation: "Influenzare legittimamente la strategia richiede comprensione approfondita degli obiettivi strategici esistenti e scelta ragionata di strumenti per proporne evoluzioni. Usare la rete personale è manipolativo, colpevolizzare strategie passate è controproducente, applicare modelli teorici acriticamente ignora il contesto."
+  },
+  {
+    id: 33,
+    q: "Quale delle seguenti affermazioni è falsa quando ci si prepara a una negoziazione?",
+    options: [
+      "Si dovrebbe identificare la migliore alternativa a una soluzione negoziata.",
+      "I trade-off dovrebbero essere sviluppati in fase di preparazione e non dovrebbero cambiare.",
+      "I trade-off dovrebbero essere sviluppati in fase di preparazione e modificati se necessario.",
+      "Prima dell'inizio del processo dovrebbero essere sviluppate soluzioni alternative."
+    ],
+    correct: 1,
+    explanation: "Una negoziazione efficace richiede flessibilità: i trade-off preparati devono poter essere adattati al progredire del dialogo e all'emergere di nuove informazioni. Mantenerli rigidi rende la negoziazione un confronto posizionale che blocca l'accordo. BATNA e alternative sono invece correttamente preparati in anticipo."
+  },
+  {
+    id: 34,
+    q: "Quale delle seguenti aiuterebbe meglio il project manager a selezionare un approccio generale di project management?",
+    options: [
+      "La valutazione dei vincoli e della complessità del progetto",
+      "Comprendere i punti di forza del team di progetto e lavorare di conseguenza",
+      "Identificare l'approccio utilizzato in un progetto precedente e copiarlo",
+      "Discutere quale approccio si adatterebbe meglio ai fornitori del progetto"
+    ],
+    correct: 0,
+    explanation: "La scelta dell'approccio (waterfall, agile, ibrido, ecc.) deve essere tailorizzata su vincoli specifici (tempi, budget, risorse) e complessità (tecnica, organizzativa, stakeholder). Copiare progetti precedenti ignora la specificità; team e fornitori sono considerazioni secondarie rispetto alla natura del progetto."
+  },
+  {
+    id: 35,
+    q: "Quale delle seguenti sarebbe la modalità migliore per un project manager di dimostrare responsabilità verso il proprio apprendimento e sviluppo personale?",
+    options: [
+      "Cercare nuovi ruoli all'interno dell'organizzazione",
+      "Non accettare mai critiche e cercare colpe negli altri",
+      "Discutere con il line manager per identificare corsi di formazione",
+      "Accettare il feedback e concentrarsi sul miglioramento del proprio lavoro e delle proprie capacità"
+    ],
+    correct: 3,
+    explanation: "La responsabilità personale (self-accountability) per lo sviluppo si manifesta attraverso ricettività al feedback e focus attivo sul miglioramento. Cercare nuovi ruoli è un'opzione di carriera, rifiutare le critiche nega la responsabilità, delegare al line manager riduce l'ownership personale del processo."
+  },
+  {
+    id: 36,
+    q: "Valutare e assegnare priorità ai requisiti di progetto aiuterà un project manager a:",
+    options: [
+      "focalizzarsi sul miglioramento continuo.",
+      "promuovere il progetto a tutti gli stakeholder.",
+      "ottimizzare gli esiti e il successo del progetto.",
+      "dimostrare capacità di portare a termine le cose."
+    ],
+    correct: 2,
+    explanation: "La prioritizzazione dei requisiti (es. MoSCoW) è uno strumento di ottimizzazione: permette di concentrare risorse limitate sugli elementi a massimo valore, massimizzando gli outcome. Miglioramento continuo è un principio più ampio; promozione e dimostrazione di capacità sono effetti indiretti."
+  },
+  {
+    id: 37,
+    q: "Strumenti e tecniche come scenario planning, impatti probabilistici, analisi Monte Carlo e decision tree sono più strettamente associati a quale delle seguenti discipline di project management?",
+    options: [
+      "Valutazione dei rischi",
+      "Pianificazione e schedulazione",
+      "Budget e controllo dei costi",
+      "Tracking e controlli"
+    ],
+    correct: 0,
+    explanation: "Scenario planning, simulazione Monte Carlo, analisi probabilistica di impatto e decision tree sono tutte tecniche quantitative di risk analysis. Sebbene usate anche per stime di tempi/costi, nascono e sono classificate specificamente nell'ambito della risk assessment."
+  },
+  {
+    id: 38,
+    q: "La definizione dei deliverable di progetto si ottiene al meglio mediante l'uso di:",
+    options: [
+      "tecniche di definizione dell'ambito.",
+      "expert judgement.",
+      "le risorse disponibili.",
+      "liste dei desideri degli stakeholder."
+    ],
+    correct: 0,
+    explanation: "I deliverable si definiscono attraverso tecniche strutturate di scope definition (requirement gathering, WBS, product breakdown, scope statement). Expert judgement è un input, le risorse sono un vincolo, le wish list degli stakeholder sono da filtrare e prioritizzare, non accettate grezze."
+  },
+  {
+    id: 39,
+    q: "Quale delle seguenti aiuterebbe un project manager a scegliere uno stile di comunicazione appropriato?",
+    options: [
+      "Prendere una decisione unilaterale",
+      "Usare un template organizzativo",
+      "Adottare lo stile di un progetto precedente",
+      "Definire il pubblico di destinazione"
+    ],
+    correct: 3,
+    explanation: "La comunicazione efficace è audience-centric: conoscere il pubblico (ruoli, bisogni informativi, canali preferiti, livello tecnico) guida la scelta dello stile. Decisioni unilaterali, template generici e copia di progetti precedenti ignorano la specificità del contesto comunicativo."
+  },
+  {
+    id: 40,
+    q: "Quando avvia e gestisce la transizione a una nuova fase del progetto, un project manager di solito:",
+    options: [
+      "facilita un workshop di avvio.",
+      "riconferma i piani di project management.",
+      "modifica il piano di comunicazione.",
+      "controlla la performance del progetto."
+    ],
+    correct: 1,
+    explanation: "Il passaggio di fase (gate) richiede la riconferma/aggiornamento dei piani di PM alla luce dei risultati della fase precedente e delle condizioni aggiornate. Il kick-off si fa all'inizio del progetto; modificare solo la comunicazione è parziale; controllare la performance è un'attività continua, non specifica della transizione."
+  },
+  {
+    id: 41,
+    q: "Qual è il modo migliore con cui un project manager potrebbe mantenere una comunicazione efficace con team virtuali?",
+    options: [
+      "Tenere regolari riunioni in presenza",
+      "Fornire attrezzature di comunicazione affidabili",
+      "Tenere regolari teleconferenze",
+      "Stabilire linee di comunicazione chiare"
+    ],
+    correct: 3,
+    explanation: "La comunicazione nei team virtuali dipende dalla chiarezza di protocolli: chi comunica cosa, quando, con quale canale e frequenza. Gli strumenti (riunioni in presenza, attrezzature, call) sono supporti tattici: senza linee di comunicazione chiare non sono efficaci."
+  },
+  {
+    id: 42,
+    q: "Quando gestisce deviazioni rispetto ai contratti, la prima cosa che un project manager deve fare è:",
+    options: [
+      "agire all'interno della propria organizzazione.",
+      "applicare una penale il prima possibile.",
+      "richiedere una rinegoziazione il prima possibile.",
+      "avviare un'azione legale il prima possibile."
+    ],
+    correct: 0,
+    explanation: "Di fronte a deviazioni contrattuali, il PM deve prima agire internamente: verificare i fatti, consultare legale/procurement interno, valutare impatti e strategie. Applicare penali, rinegoziare o agire legalmente sono passi successivi che richiedono preparazione e consenso interno."
+  },
+  {
+    id: 43,
+    q: "Come valuterà e monitorerà più probabilmente un project manager le risposte ai rischi?",
+    options: [
+      "Richiedendo un report di avanzamento al team di progetto",
+      "Effettuando periodicamente una review del rischio di progetto con il risk owner",
+      "Valutando il risk register nelle gate review di progetto",
+      "Verificando con il senior management per assicurare buy-in"
+    ],
+    correct: 1,
+    explanation: "Le risposte ai rischi si monitorano attraverso risk review periodiche con i risk owner (responsabili delle singole azioni di risposta): sono loro a conoscere lo stato effettivo. Report di avanzamento e gate review sono meno specifici; il senior management serve per escalation, non per monitoraggio operativo."
+  },
+  {
+    id: 44,
+    q: "Quale delle seguenti spiega meglio come i project manager potrebbero stabilire il proprio contributo al successo di un progetto?",
+    options: [
+      "Produrre una riflessione personale che includa una panoramica generale del contributo",
+      "Produrre una riflessione personale focalizzata sul lavoro assegnato dallo sponsor",
+      "Produrre una riflessione personale sulle aree in cui il project manager ha influenzato le decisioni",
+      "Produrre una riflessione personale su tutti gli apporti e identificare come è stato aggiunto valore"
+    ],
+    correct: 3,
+    explanation: "Stabilire il proprio contributo richiede una riflessione completa su tutti gli apporti e, soprattutto, sul valore aggiunto generato. Panoramica generica è troppo vaga, focus solo su compiti assegnati è limitante, focus solo su decisioni influenzate ignora altre forme di contributo."
+  },
+  {
+    id: 45,
+    q: "Quando identifica e valuta i bisogni e i requisiti degli stakeholder di progetto, un project manager deve comprendere che bisogni e aspettative:",
+    options: [
+      "non sono la stessa cosa dei requisiti dichiarati.",
+      "sono la stessa cosa dei requisiti dichiarati.",
+      "sono considerazioni interne.",
+      "sono considerazioni esterne."
+    ],
+    correct: 0,
+    explanation: "Bisogni reali, aspettative implicite e requisiti formalmente dichiarati sono concetti distinti: gli stakeholder spesso non riescono ad articolare tutti i loro bisogni, e le aspettative implicite possono differire sostanzialmente da ciò che è messo per iscritto. Il PM deve identificare tutti e tre i livelli."
+  },
+  {
+    id: 46,
+    q: "Qualsiasi modifica all'ambito del progetto dovrebbe essere valutata rispetto a quale delle seguenti?",
+    options: [
+      "La disponibilità del project manager",
+      "Gli obiettivi del progetto e gli outcome concordati",
+      "Le opinioni del team di progetto",
+      "L'interruzione del lavoro già completato"
+    ],
+    correct: 1,
+    explanation: "Il change control valuta ogni modifica di scope rispetto agli obiettivi e agli outcome concordati: se la modifica li supporta, va considerata; se li mina, va respinta. La disponibilità del PM è irrilevante, le opinioni del team sono un input ma non il criterio, le rilavorazioni sono una conseguenza da stimare."
+  },
+  {
+    id: 47,
+    q: "Quale delle seguenti sarebbe la modalità migliore per un project manager di identificare e riflettere sulle motivazioni personali al fine di definire obiettivi e mantenere il focus?",
+    options: [
+      "Identificare obiettivi professionali durante la valutazione annuale",
+      "Identificare obiettivi di lungo e breve termine con influenza del management",
+      "Definire obiettivi e priorità personali e professionali",
+      "Discutere obiettivi personali e professionali con un mentor"
+    ],
+    correct: 2,
+    explanation: "L'auto-motivazione autentica richiede definizione personale di obiettivi e priorità (sia personali sia professionali) basata su introspezione. La valutazione annuale è uno strumento esterno, l'influenza del management riduce autenticità, il mentor è un supporto utile ma non sostituisce la propria definizione."
+  },
+  {
+    id: 48,
+    q: "Quando si stabilisce e si mantiene la configurazione dell'ambito, è importante che un project manager sappia che lo scope configuration management è un:",
+    options: [
+      "processo continuo.",
+      "processo limitato nel tempo.",
+      "elemento di una work breakdown structure.",
+      "confine di un work package."
+    ],
+    correct: 0,
+    explanation: "Il configuration management è un processo continuo che accompagna l'intero ciclo di vita del progetto: identifica, controlla, contabilizza e verifica la configurazione in ogni momento. Non è time-bound né un elemento statico di WBS o work package."
+  },
+  {
+    id: 49,
+    q: "Un project manager che voglia garantire la continua validità della business justification del proprio progetto deve:",
+    options: [
+      "identificare come l'ambito modellerà i criteri di successo.",
+      "identificare gli obiettivi di progetto per dare forma ai benefici.",
+      "attendere lo sviluppo del business case da parte degli sponsor di progetto.",
+      "riflettere sulla business justification e definirla in un documento formale."
+    ],
+    correct: 3,
+    explanation: "La continua validità della business justification richiede una formalizzazione documentale che permetta di rivalutarla periodicamente rispetto all'evoluzione del contesto. Ambito e obiettivi sono derivati, attendere passivamente lo sponsor delega una responsabilità che è anche del PM nel ciclo di vita."
+  },
+  {
+    id: 50,
+    q: "Quale delle seguenti descrive meglio perché è importante che un project manager completi le attività in modo accurato?",
+    options: [
+      "I project manager hanno una responsabilità",
+      "Dimostra le azioni corrette da intraprendere",
+      "Soddisfa il requisito di qualità",
+      "Dà agli altri fiducia nelle capacità del project manager"
+    ],
+    correct: 3,
+    explanation: "L'accuratezza nell'esecuzione costruisce la credibilità e la fiducia (trust) del PM: gli altri (team, sponsor, stakeholder) collaborano e seguono meglio chi dimostra affidabilità costante. La responsabilità è un concetto più ampio, 'azioni corrette' è vago, 'requisito di qualità' riguarda il prodotto, non l'affidabilità personale."
+  },
+  {
+    id: 51,
+    q: "Nel prepararsi a una negoziazione, il modo migliore con cui una persona può comprendere gli interessi di tutte le parti coinvolte è:",
+    options: [
+      "assicurarsi di conoscere le parti rilevanti prima dell'inizio della negoziazione e svolgere l'analisi in seguito.",
+      "raccogliere, documentare e analizzare informazioni rilevanti, sia hard sia soft, sulle parti.",
+      "raccogliere fatti sugli interessi dei singoli man mano che la negoziazione procede.",
+      "usare mezzi formali per raccogliere e analizzare le informazioni trovate durante la negoziazione."
+    ],
+    correct: 1,
+    explanation: "La preparazione negoziale richiede raccolta sistematica ANTECEDENTE di dati hard (fatti, numeri, posizioni) e soft (cultura, relazioni, stile) su tutte le parti. Raccogliere dati durante la negoziazione è reattivo e insufficiente; analizzare in corsa riduce il potere negoziale."
+  },
+  {
+    id: 52,
+    q: "Quale delle seguenti spiega meglio che cosa dovrebbe fare un project manager per comprendere l'impatto del cambiamento su un'organizzazione e garantire il successo continuo del progetto?",
+    options: [
+      "Stabilire nuovi KPI sulla base del cambiamento",
+      "Adottare un approccio flessibile al cambiamento",
+      "Riesaminare i requisiti del cambiamento",
+      "Valutare la capacità dell'organizzazione di cambiare"
+    ],
+    correct: 3,
+    explanation: "Comprendere l'impatto del cambiamento richiede valutazione della change capability/readiness dell'organizzazione (competenze, cultura, esperienze pregresse, carico concomitante). KPI e flessibilità sono strumenti successivi; riesaminare i requisiti non misura la capacità organizzativa di assorbire il cambiamento."
+  },
+  {
+    id: 53,
+    q: "Quale delle seguenti è l'azione che un project manager compirà con maggiore probabilità quando cerca di superare una resistenza persistente al cambiamento dopo che l'iniziativa di cambiamento è stata implementata?",
+    options: [
+      "Collaborare con lo sponsor",
+      "Comunicare con tutti gli stakeholder",
+      "Riprogettare i work package",
+      "Usare tecniche di rinforzo"
+    ],
+    correct: 3,
+    explanation: "Dopo l'implementazione, la resistenza residua si affronta con reinforcement techniques (riconoscimenti, feedback, training aggiuntivo, celebrazione dei successi, supporto continuo) per consolidare i nuovi comportamenti. Coinvolgere lo sponsor o comunicare sono azioni più utili nelle fasi precedenti."
+  },
+  {
+    id: 54,
+    q: "Quale delle seguenti spiega meglio che cosa dovrebbe fare un project manager per identificare e garantire che un progetto sia conforme ai codici di condotta e alla regolamentazione professionale?",
+    options: [
+      "Identificare i codici di condotta e la regolamentazione professionale pertinenti e assicurarsi che siano rispettati",
+      "Identificare tutti i codici di condotta e la regolamentazione professionale e assicurarsi che siano rispettati",
+      "Identificare le violazioni dei codici di condotta e della regolamentazione professionale pertinenti e assicurarsi che siano corrette",
+      "Identificare le violazioni di tutti i codici di condotta e della regolamentazione professionale e assicurarsi che siano corrette"
+    ],
+    correct: 0,
+    explanation: "L'approccio corretto è proattivo e mirato: identificare i codici e le regolamentazioni PERTINENTI al progetto specifico e assicurarsi che siano rispettati. Identificare 'tutti' è impraticabile; concentrarsi sulle violazioni è reattivo e tardivo."
+  },
+  {
+    id: 55,
+    q: "Quale delle seguenti spiega meglio che cosa dovrebbe fare un project manager per contribuire a garantire che un progetto sia conforme alle normative HSSE (health, safety, security and environmental)?",
+    options: [
+      "Conoscere gli standard professionali che si applicano a tutti i progetti",
+      "Conoscere tutte le normative e le policy HSSE",
+      "Conoscere i rischi HSSE associati a un progetto",
+      "Conoscere quali normative HSSE sono rilevanti per il progetto"
+    ],
+    correct: 3,
+    explanation: "La compliance HSSE richiede conoscenza della normativa RILEVANTE per lo specifico progetto: tailored al contesto, settore e giurisdizione. Conoscere 'tutte' le norme è impraticabile; conoscere solo i rischi senza la base normativa è incompleto; gli standard professionali sono un ambito correlato ma distinto."
+  },
+  {
+    id: 56,
+    q: "Quale delle seguenti NON è un probabile beneficio, per un project manager, dell'avere una strategia di change o transformation?",
+    options: [
+      "La capacità organizzativa può essere aumentata",
+      "Gli interventi selezionati possono essere pianificati",
+      "La resistenza al cambiamento può essere affrontata in una fase iniziale",
+      "Le tecniche di rinforzo possono essere pianificate"
+    ],
+    correct: 0,
+    explanation: "Aumentare la capacità organizzativa è un risultato/output del cambiamento stesso, non un beneficio diretto dell'avere una strategia di change per il project manager. Pianificazione degli interventi, gestione precoce della resistenza e pianificazione del rinforzo sono invece benefici diretti della strategia."
+  },
+  {
+    id: 57,
+    q: "Quale delle seguenti spiega meglio come un project manager potrebbe dimostrare la capacità di agire, prendere decisioni e comunicare in modo coerente?",
+    options: [
+      "Resistere a un approccio flessibile rispetto alla situazione",
+      "Completare accuratamente le attività nonostante la situazione",
+      "Assicurarsi che parole, comportamenti e azioni siano coerenti tra loro",
+      "Assumersi la responsabilità delle proprie azioni in una situazione"
+    ],
+    correct: 2,
+    explanation: "L'integrità personale e la coerenza comportamentale si manifestano nell'allineamento tra ciò che si dice, si fa e come ci si comporta: 'walk the talk'. Resistere alla flessibilità è rigidità; completare attività è esecutività; assumersi responsabilità è accountability. Tutte importanti ma diverse dalla coerenza."
+  },
+  {
+    id: 58,
+    q: "Quale delle seguenti spiega meglio quando un project manager dovrebbe valutare l'approccio del progetto corrente e le lesson learned?",
+    options: [
+      "Periodicamente e al termine del progetto",
+      "Periodicamente durante il progetto",
+      "Al termine del progetto",
+      "Quando richiesto dallo sponsor"
+    ],
+    correct: 0,
+    explanation: "Le lesson learned e la valutazione dell'approccio devono avvenire sia periodicamente durante il progetto (per applicare gli apprendimenti in corso d'opera) sia al termine (per knowledge management organizzativo e progetti futuri). Solo periodicamente o solo alla fine perde valore; a richiesta è reattivo."
+  },
+  {
+    id: 59,
+    q: "Quale delle seguenti spiega meglio che cosa dovrebbe fare un project manager per usare standard professionali in un nuovo progetto?",
+    options: [
+      "Adottare i migliori standard professionali e sviluppare miglioramenti ove necessario",
+      "Implementare per il team di progetto un insieme ampio di standard",
+      "Implementare benchmark per misurare la conformità agli standard",
+      "Implementare gli standard utilizzati in progetti precedenti"
+    ],
+    correct: 0,
+    explanation: "Il professionista maturo adotta i migliori standard applicabili e li adatta/migliora dove il contesto lo richiede (tailoring). Implementare un insieme ampio senza tailoring appesantisce; copiare da progetti precedenti ignora la specificità; i benchmark misurano ma non guidano l'adozione."
+  },
+  {
+    id: 60,
+    q: "Che cosa aiuterebbe al meglio un project manager a bilanciare i bisogni e i mezzi del progetto?",
+    options: [
+      "Consapevolezza degli audit di qualità pianificati",
+      "Comprensione dei target di bonus dello sponsor",
+      "Disponibilità di un fornitore preferenziale",
+      "Chiarezza sulle priorità del progetto"
+    ],
+    correct: 3,
+    explanation: "Bilanciare bisogni e mezzi (risorse) richiede chiarezza sulle priorità: sapere cosa è essenziale vs desiderabile permette di allocare risorse limitate in modo efficace. Audit, bonus dello sponsor e fornitori preferenziali sono elementi di contesto ma non criteri decisionali per il bilanciamento."
+  }
+];
+
+// ============================================================
+// LOGICA QUIZ
+// ============================================================
+let state = {
+  questions: [],
+  current: 0,
+  answers: [],
+  totalQuestions: 60,
+  startTime: null
+};
+
+const app = document.getElementById('app');
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function renderStart() {
+  app.innerHTML = `
+    <div class="start-screen">
+      <h2>Benvenuto al Quiz IPMA Livello D</h2>
+      <p>Simulazione d'esame basata sul sample paper APM.<br>
+      Ogni sessione propone domande in ordine casuale.<br>
+      Dopo ogni risposta viene mostrata la soluzione con spiegazione.</p>
+      <div class="config-row">
+        <label for="numQ">Numero di domande:</label>
+        <select id="numQ">
+          <option value="10">10 (prova rapida)</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="60" selected>60 (simulazione completa)</option>
+        </select>
+      </div>
+      <button class="btn" id="startBtn">Inizia Quiz</button>
+    </div>
+  `;
+  document.getElementById('startBtn').onclick = () => {
+    const n = parseInt(document.getElementById('numQ').value);
+    startQuiz(n);
+  };
+}
+
+function startQuiz(n) {
+  state.questions = shuffle(QUESTIONS).slice(0, n).map(q => ({
+    ...q,
+    shuffledOptions: shuffle(q.options.map((opt, i) => ({ text: opt, originalIndex: i })))
+  }));
+  state.current = 0;
+  state.answers = [];
+  state.totalQuestions = n;
+  state.startTime = Date.now();
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = state.questions[state.current];
+  const progress = ((state.current) / state.totalQuestions) * 100;
+  const alreadyAnswered = state.answers[state.current] !== undefined;
+  const userChoice = state.answers[state.current];
+
+  app.innerHTML = `
+    <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
+    <div class="question-meta">
+      <span>Domanda ${state.current + 1} di ${state.totalQuestions}</span>
+      <span>Originale: #${q.id}</span>
+    </div>
+    <div class="question-text">${q.q}</div>
+    <div class="options" id="optionsContainer"></div>
+    <div id="explanationBox"></div>
+    <div class="nav">
+      <button class="btn btn-secondary" id="prevBtn" ${state.current === 0 ? 'disabled' : ''}>← Indietro</button>
+      <button class="btn" id="nextBtn" ${!alreadyAnswered ? 'disabled' : ''}>
+        ${state.current === state.totalQuestions - 1 ? 'Termina →' : 'Avanti →'}
+      </button>
+    </div>
+  `;
+
+  const optsContainer = document.getElementById('optionsContainer');
+  const letters = ['A', 'B', 'C', 'D'];
+
+  q.shuffledOptions.forEach((opt, displayIdx) => {
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.innerHTML = `<span class="letter">${letters[displayIdx]}.</span><span>${opt.text}</span>`;
+
+    if (alreadyAnswered) {
+      div.classList.add('disabled');
+      if (opt.originalIndex === q.correct) div.classList.add('correct');
+      if (displayIdx === userChoice && opt.originalIndex !== q.correct) div.classList.add('wrong');
+    } else {
+      div.onclick = () => handleAnswer(displayIdx);
+    }
+    optsContainer.appendChild(div);
+  });
+
+  if (alreadyAnswered) showExplanation();
+
+  document.getElementById('prevBtn').onclick = () => {
+    if (state.current > 0) { state.current--; renderQuestion(); }
+  };
+  document.getElementById('nextBtn').onclick = () => {
+    if (state.current < state.totalQuestions - 1) {
+      state.current++;
+      renderQuestion();
+    } else {
+      renderResults();
+    }
+  };
+}
+
+function handleAnswer(displayIdx) {
+  state.answers[state.current] = displayIdx;
+  renderQuestion();
+}
+
+function showExplanation() {
+  const q = state.questions[state.current];
+  const userChoice = state.answers[state.current];
+  const chosenOriginalIdx = q.shuffledOptions[userChoice].originalIndex;
+  const isCorrect = chosenOriginalIdx === q.correct;
+  const box = document.getElementById('explanationBox');
+  const correctLetter = ['A','B','C','D'][q.shuffledOptions.findIndex(o => o.originalIndex === q.correct)];
+
+  box.innerHTML = `
+    <div class="explanation ${isCorrect ? 'correct' : 'wrong'}">
+      <h3 class="${isCorrect ? 'correct' : 'wrong'}">
+        ${isCorrect ? '✓ Risposta corretta!' : '✗ Risposta errata'}
+      </h3>
+      ${!isCorrect ? `<p style="margin-bottom:10px"><strong>La risposta corretta è: ${correctLetter}</strong></p>` : ''}
+      <p>${q.explanation}</p>
+    </div>
+  `;
+}
+
+function renderResults() {
+  let correctCount = 0;
+  state.questions.forEach((q, i) => {
+    const userAns = state.answers[i];
+    if (userAns !== undefined) {
+      const chosenOrig = q.shuffledOptions[userAns].originalIndex;
+      if (chosenOrig === q.correct) correctCount++;
+    }
+  });
+  const total = state.totalQuestions;
+  const pct = Math.round((correctCount / total) * 100);
+  const passed = pct >= 65;
+  const elapsed = Math.round((Date.now() - state.startTime) / 60000);
+
+  let reviewHtml = '<div class="review-list"><h3 style="margin-bottom:10px;color:#1e3c72">Riepilogo domande</h3>';
+  state.questions.forEach((q, i) => {
+    const userAns = state.answers[i];
+    const answered = userAns !== undefined;
+    const chosenOrig = answered ? q.shuffledOptions[userAns].originalIndex : -1;
+    const isCorrect = chosenOrig === q.correct;
+    reviewHtml += `
+      <div class="review-item ${answered ? (isCorrect ? 'correct-row' : 'wrong-row') : ''}">
+        <div class="q-title">#${q.id} ${isCorrect ? '✓' : (answered ? '✗' : '—')} ${q.q.substring(0, 90)}${q.q.length > 90 ? '...' : ''}</div>
+      </div>
+    `;
+  });
+  reviewHtml += '</div>';
+
+  app.innerHTML = `
+    <div class="results">
+      <h2>Quiz completato!</h2>
+      <div class="score-circle">
+        <div class="score-number">${correctCount}/${total}</div>
+        <div class="score-total">risposte corrette</div>
+      </div>
+      <div class="score-pct">${pct}%</div>
+      <div class="verdict ${passed ? 'pass' : 'fail'}">
+        ${passed ? '🎉 Complimenti! Hai superato la soglia del 65%' : '📚 Sotto la soglia del 65% — continua a studiare!'}
+        <br><small>Tempo impiegato: ${elapsed} minuti</small>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn" id="restartBtn">Nuovo Quiz</button>
+        <button class="btn btn-secondary" id="reviewBtn">Rivedi risposte</button>
+      </div>
+      ${reviewHtml}
+    </div>
+  `;
+
+  document.getElementById('restartBtn').onclick = renderStart;
+  document.getElementById('reviewBtn').onclick = () => {
+    state.current = 0;
+    renderQuestion();
+  };
+}
+
+// START
+renderStart();
+</script>
+</body>
+</html>
