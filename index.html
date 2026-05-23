@@ -286,6 +286,73 @@
     background: #e4efd2; padding: 3px 8px; border-radius: 999px;
   }
 
+  /* ============ BORGHI · SCHEDE DETTAGLIATE ============ */
+  .borgo-full {
+    display: grid;
+    grid-template-columns: 0.92fr 1.08fr;
+    background: var(--bianco);
+    border-radius: var(--radius);
+    box-shadow: var(--ombra);
+    border: 1px solid #efe6d2;
+    overflow: hidden;
+    margin-bottom: 30px;
+  }
+  .borgo-illu {
+    position: relative; min-height: 320px;
+    background: var(--mare-pale);
+  }
+  .borgo-illu svg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; display: block;
+  }
+  .borgo-illu .didascalia {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+    background: linear-gradient(transparent, rgba(19, 78, 90, 0.86));
+    color: #fdf3e0; font-size: 0.78rem; font-style: italic;
+    padding: 30px 16px 12px;
+  }
+  .borgo-full:nth-of-type(even) .borgo-illu { order: 2; }
+  .borgo-testo { padding: 28px 32px; }
+  .borgo-num {
+    font-family: var(--serif); font-size: 2.5rem; font-weight: 700;
+    color: var(--sabbia); line-height: 1; margin-bottom: 2px;
+  }
+  .borgo-testo h3 {
+    font-size: 1.5rem; color: var(--mare-deep); margin-bottom: 3px;
+  }
+  .borgo-testo h3 .epiteto {
+    display: block; margin-top: 3px;
+    font-size: 0.92rem; font-weight: 400; font-style: italic;
+    color: var(--terra); font-family: var(--sans);
+  }
+  .borgo-facts { display: flex; flex-wrap: wrap; gap: 7px; margin: 13px 0 4px; }
+  .borgo-facts span {
+    font-size: 0.76rem; font-weight: 600; color: var(--grigio);
+    background: var(--crema-2); padding: 4px 10px; border-radius: 999px;
+  }
+  .borgo-testo h4 {
+    font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--terra); margin: 20px 0 8px; font-family: var(--sans);
+  }
+  .borgo-testo p { font-size: 0.93rem; color: var(--grigio); margin-bottom: 9px; }
+  .vedere-list { list-style: none; }
+  .vedere-list li {
+    font-size: 0.91rem; color: var(--grigio);
+    padding: 9px 0 9px 26px; position: relative;
+    border-bottom: 1px dashed var(--sabbia);
+  }
+  .vedere-list li:last-child { border-bottom: none; }
+  .vedere-list li::before {
+    content: "📍"; position: absolute; left: 0; top: 8px; font-size: 0.82rem;
+  }
+  .vedere-list li strong { color: var(--inchiostro); }
+  @media (max-width: 820px) {
+    .borgo-full { grid-template-columns: 1fr; }
+    .borgo-illu { min-height: 200px; order: -1 !important; }
+    .borgo-full:nth-of-type(even) .borgo-illu { order: -1 !important; }
+    .borgo-testo { padding: 22px 21px; }
+  }
+
   /* ============ TAB ITINERARIO ============ */
   .tabs {
     display: flex; gap: 8px; margin-bottom: 26px; flex-wrap: wrap;
@@ -560,13 +627,14 @@
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#logistica">Auto &amp; parcheggio</a></li>
-      <li><a href="#muoversi">Come muoversi</a></li>
+      <li><a href="#logistica">Auto</a></li>
+      <li><a href="#muoversi">Muoversi</a></li>
+      <li><a href="#borghi">I borghi</a></li>
       <li><a href="#itinerario">Itinerario</a></li>
       <li><a href="#trekking">Trekking</a></li>
       <li><a href="#ristoranti">Ristoranti</a></li>
       <li><a href="#checklist">Checklist</a></li>
-      <li><a href="#link">Link utili</a></li>
+      <li><a href="#link">Link</a></li>
     </ul>
   </div>
 </nav>
@@ -804,8 +872,519 @@
   </div>
 </section>
 
+<!-- ===================== I BORGHI ===================== -->
+<section class="sezione" id="borghi">
+  <div class="wrap">
+    <div class="occhiello">Le cinque terre, una per una</div>
+    <h2 class="titolo-sez">I cinque borghi</h2>
+    <p class="intro-sez">Cinque paesi nati dalla stessa fatica — il mare, la roccia, i
+      muri a secco dei vigneti — eppure ognuno con un carattere tutto suo. Ecco chi sono,
+      da dove vengono e cosa non perdere in ciascuno.</p>
+
+    <!-- ===== 01 · RIOMAGGIORE ===== -->
+    <article class="borgo-full">
+      <div class="borgo-illu">
+        <svg viewBox="0 0 440 360" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustrazione di Riomaggiore">
+          <defs>
+            <linearGradient id="rioSky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#fde6c8"/><stop offset="0.55" stop-color="#e4eff0"/><stop offset="1" stop-color="#abd7da"/>
+            </linearGradient>
+          </defs>
+          <rect width="440" height="360" fill="url(#rioSky)"/>
+          <circle cx="352" cy="62" r="30" fill="#ffce7d" opacity="0.9"/>
+          <path d="M0,360 L0,150 Q110,150 178,256 L178,360 Z" fill="#728f44"/>
+          <path d="M440,360 L440,176 Q346,182 282,260 L282,360 Z" fill="#82a052"/>
+          <g stroke="#5e7d39" stroke-width="2.5" fill="none" opacity="0.55">
+            <path d="M18,212 Q92,206 152,252"/>
+            <path d="M28,262 Q102,252 162,292"/>
+            <path d="M318,252 Q372,232 426,238"/>
+          </g>
+          <g>
+            <rect x="58" y="176" width="42" height="130" fill="#e7ab3f"/>
+            <rect x="96" y="150" width="40" height="156" fill="#dd854a"/>
+            <rect x="132" y="192" width="40" height="114" fill="#d56f43"/>
+            <rect x="268" y="182" width="42" height="124" fill="#ecb277"/>
+            <rect x="304" y="158" width="40" height="148" fill="#e0973f"/>
+            <rect x="340" y="198" width="40" height="108" fill="#cf6438"/>
+          </g>
+          <g fill="#9a4226">
+            <polygon points="58,176 79,159 100,176"/>
+            <polygon points="96,150 116,133 136,150"/>
+            <polygon points="132,192 152,176 172,192"/>
+            <polygon points="268,182 289,166 310,182"/>
+            <polygon points="304,158 324,141 344,158"/>
+            <polygon points="340,198 360,182 380,198"/>
+          </g>
+          <g fill="#2f5860">
+            <rect x="70" y="194" width="11" height="15"/><rect x="70" y="227" width="11" height="15"/><rect x="70" y="260" width="11" height="15"/>
+            <rect x="108" y="170" width="11" height="15"/><rect x="108" y="205" width="11" height="15"/><rect x="108" y="240" width="11" height="15"/>
+            <rect x="144" y="210" width="11" height="14"/><rect x="144" y="242" width="11" height="14"/>
+            <rect x="280" y="200" width="11" height="15"/><rect x="280" y="234" width="11" height="15"/>
+            <rect x="316" y="176" width="11" height="15"/><rect x="316" y="211" width="11" height="15"/><rect x="316" y="246" width="11" height="15"/>
+            <rect x="352" y="216" width="11" height="14"/><rect x="352" y="248" width="11" height="14"/>
+          </g>
+          <path d="M178,360 L178,306 Q230,286 282,306 L282,360 Z" fill="#1f7a8c"/>
+          <path d="M178,324 Q230,308 282,324 L282,360 L178,360 Z" fill="#2b8a9e"/>
+          <g>
+            <path d="M206,318 q14,15 28,0 Z" fill="#f6f1e6"/>
+            <rect x="218" y="305" width="3" height="14" fill="#9a4226"/>
+            <polygon points="221,305 221,316 233,316" fill="#d56f43"/>
+            <path d="M234,334 q12,13 24,0 Z" fill="#f6f1e6"/>
+            <rect x="244" y="322" width="3" height="12" fill="#9a4226"/>
+            <polygon points="247,322 247,332 257,332" fill="#2b8a9e"/>
+          </g>
+        </svg>
+        <div class="didascalia">Riomaggiore — le case-torri colorate che scendono alla marina</div>
+      </div>
+      <div class="borgo-testo">
+        <div class="borgo-num">01</div>
+        <h3>Riomaggiore <span class="epiteto">La porta orientale delle Cinque Terre</span></h3>
+        <div class="borgo-facts">
+          <span>🏘️ ~1.500 abitanti</span>
+          <span>🧭 Il borgo più a est</span>
+          <span>⏱️ Visita 1–1,5 h</span>
+        </div>
+        <h4>Storia &amp; identità</h4>
+        <p>Riomaggiore deve il nome al <strong>Rio Maggiore</strong>, il torrente che un
+          tempo scorreva nella stretta valle attorno a cui il borgo è cresciuto e che
+          oggi è coperto dalla via principale. La tradizione fa risalire la fondazione
+          all'VIII secolo, quando un gruppo di profughi greci in fuga dalle persecuzioni
+          religiose si sarebbe rifugiato su queste coste; lo sviluppo vero e proprio è
+          però medievale, dal XIII secolo, quando il borgo entrò nell'orbita della
+          Repubblica di Genova.</p>
+        <p>Le case-torri alte e strette, dipinte di giallo, ocra e rosa, si arrampicano
+          lungo i due versanti della valle: una scelta insieme difensiva e pratica, per
+          sfruttare ogni metro di terreno. In basso, la piccola marina con le barche
+          tirate in secca tra gli scogli è una delle immagini simbolo dell'intera costa.
+          Da qui parte la celebre Via dell'Amore verso Manarola.</p>
+        <h4>Cosa vedere</h4>
+        <ul class="vedere-list">
+          <li><strong>La Marina</strong> — la minuscola insenatura con le barche colorate
+            in secca e le case a strapiombo: il punto fotografico più iconico del borgo,
+            magico al tramonto.</li>
+          <li><strong>Chiesa di San Giovanni Battista</strong> — del 1340, gotico ligure,
+            con un bel rosone; si trova nella parte alta del paese.</li>
+          <li><strong>Castello di Riomaggiore</strong> — fortezza duecentesca sulla
+            collina, voluta dai marchesi Turcotti e rimaneggiata da Genova; oggi spazio
+            espositivo, con vista sul borgo.</li>
+          <li><strong>Santuario di Nostra Signora di Montenero</strong> — sopra il paese,
+            raggiungibile a piedi: una delle terrazze panoramiche più ampie sulle Cinque
+            Terre.</li>
+          <li><strong>Via Colombo</strong> — la via principale animata da botteghe,
+            friggitorie ed enoteche, che segue il corso del torrente coperto.</li>
+          <li><strong>Spiaggia di Fossola</strong> — piccola caletta di ciottoli poco a
+            sud, raggiungibile con una breve passeggiata.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- ===== 02 · MANAROLA ===== -->
+    <article class="borgo-full">
+      <div class="borgo-illu">
+        <svg viewBox="0 0 440 360" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustrazione di Manarola">
+          <defs>
+            <linearGradient id="manSky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#d3eaef"/><stop offset="1" stop-color="#90ced4"/>
+            </linearGradient>
+            <linearGradient id="manSea" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#2b8a9e"/><stop offset="1" stop-color="#134e5a"/>
+            </linearGradient>
+          </defs>
+          <rect width="440" height="360" fill="url(#manSky)"/>
+          <rect y="232" width="440" height="128" fill="url(#manSea)"/>
+          <path d="M0,232 L0,86 Q120,66 232,150 L232,232 Z" fill="#7a9a4f"/>
+          <g stroke="#5e7d39" stroke-width="2.5" fill="none" opacity="0.55">
+            <path d="M18,150 Q112,120 202,166"/>
+            <path d="M14,188 Q112,162 212,202"/>
+          </g>
+          <path d="M150,234 Q200,148 270,138 Q332,150 352,234 Z" fill="#8a7058"/>
+          <path d="M150,234 Q212,302 352,234 Z" fill="#705842"/>
+          <g>
+            <rect x="200" y="150" width="34" height="60" fill="#e9b04a"/>
+            <rect x="232" y="136" width="32" height="76" fill="#df8b4b"/>
+            <rect x="262" y="150" width="32" height="68" fill="#d56f43"/>
+            <rect x="214" y="188" width="32" height="60" fill="#edb277"/>
+            <rect x="246" y="198" width="32" height="56" fill="#e0973f"/>
+            <rect x="278" y="186" width="30" height="58" fill="#cf6a3c"/>
+          </g>
+          <g fill="#8c3f24">
+            <polygon points="200,150 217,135 234,150"/>
+            <polygon points="232,136 248,121 264,136"/>
+            <polygon points="262,150 278,135 294,150"/>
+            <polygon points="214,188 230,174 246,188"/>
+            <polygon points="246,198 262,184 278,198"/>
+            <polygon points="278,186 293,172 308,186"/>
+          </g>
+          <g fill="#2f5860">
+            <rect x="211" y="165" width="9" height="13"/><rect x="243" y="152" width="9" height="13"/>
+            <rect x="273" y="166" width="9" height="13"/><rect x="225" y="203" width="9" height="13"/>
+            <rect x="257" y="213" width="9" height="13"/><rect x="288" y="201" width="9" height="13"/>
+          </g>
+          <path d="M236,248 L268,248 L262,302 L242,302 Z" fill="#c8b48f"/>
+          <g>
+            <path d="M204,272 q13,13 26,0 Z" fill="#f6f1e6"/>
+            <rect x="215" y="260" width="3" height="13" fill="#8c3f24"/>
+            <polygon points="218,260 218,271 229,271" fill="#d56f43"/>
+            <path d="M292,290 q12,12 24,0 Z" fill="#f6f1e6"/>
+            <rect x="302" y="279" width="3" height="12" fill="#8c3f24"/>
+            <polygon points="305,279 305,289 315,289" fill="#2b8a9e"/>
+          </g>
+          <g fill="#bfe3e6" opacity="0.6">
+            <rect x="56" y="300" width="40" height="3" rx="1.5"/>
+            <rect x="344" y="322" width="46" height="3" rx="1.5"/>
+            <rect x="120" y="332" width="38" height="3" rx="1.5"/>
+          </g>
+        </svg>
+        <div class="didascalia">Manarola — il borgo arroccato sullo sperone di roccia scura</div>
+      </div>
+      <div class="borgo-testo">
+        <div class="borgo-num">02</div>
+        <h3>Manarola <span class="epiteto">Il borgo del vino e del presepe</span></h3>
+        <div class="borgo-facts">
+          <span>🏠 ~350 abitanti</span>
+          <span>🍇 Patria dello Sciacchetrà</span>
+          <span>⏱️ Visita 1,5–2 h</span>
+        </div>
+        <h4>Storia &amp; identità</h4>
+        <p>Manarola è forse il <strong>più antico</strong> dei cinque borghi. Il nome
+          potrebbe derivare da <em>"magna roea"</em>, la grande ruota di un mulino un
+          tempo presente nella valle, oppure dal latino <em>"manium arula"</em>, piccolo
+          tempio dedicato agli dèi domestici. Il paese è costruito su uno sperone di
+          roccia scura che scende ripido verso un minuscolo approdo, dove le barche
+          vengono calate in acqua lungo uno scivolo nel cuore del borgo.</p>
+        <p>È il borgo del vino: i vigneti terrazzati che lo circondano producono il
+          Cinque Terre DOC e soprattutto il prezioso <strong>Sciacchetrà</strong>, dolce
+          e ambrato. Manarola è anche celebre per il grande presepe luminoso realizzato
+          sulla collina di Punta Bonfiglio — migliaia di luci accese ogni anno nel
+          periodo natalizio, nate dalla passione di un suo abitante.</p>
+        <h4>Cosa vedere</h4>
+        <ul class="vedere-list">
+          <li><strong>Il borgo che scende al mare</strong> — le case pastello allineate
+            lungo lo scivolo delle barche fino al porticciolo: la cartolina classica di
+            Manarola.</li>
+          <li><strong>Chiesa di San Lorenzo</strong> — del 1338, gotico-ligure, con un
+            raffinato rosone in marmo; accanto, il campanile un tempo torre di
+            avvistamento.</li>
+          <li><strong>Punta Bonfiglio</strong> — il parco panoramico sul promontorio,
+            con il punto-foto più famoso sul borgo e una terrazza sul mare aperto.</li>
+          <li><strong>Lo specchio d'acqua del porticciolo</strong> — tra gli scogli, uno
+            dei luoghi più amati per un tuffo.</li>
+          <li><strong>Volastra e i vigneti</strong> — la frazione collinare sopra
+            Manarola, immersa nelle vigne, con il santuario di Nostra Signora della
+            Salute.</li>
+          <li><strong>Le cantine dello Sciacchetrà</strong> — per una degustazione del
+            vino dolce simbolo delle Cinque Terre.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- ===== 03 · CORNIGLIA ===== -->
+    <article class="borgo-full">
+      <div class="borgo-illu">
+        <svg viewBox="0 0 440 360" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustrazione di Corniglia">
+          <defs>
+            <linearGradient id="corSky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#e2f0ee"/><stop offset="1" stop-color="#9fd3d6"/>
+            </linearGradient>
+            <linearGradient id="corSea" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#3a9aac"/><stop offset="1" stop-color="#155e6b"/>
+            </linearGradient>
+          </defs>
+          <rect width="440" height="360" fill="url(#corSky)"/>
+          <circle cx="372" cy="56" r="26" fill="#ffce7d" opacity="0.85"/>
+          <rect y="300" width="440" height="60" fill="url(#corSea)"/>
+          <path d="M68,302 L120,150 Q220,94 320,150 L374,302 Z" fill="#86a356"/>
+          <path d="M68,302 L110,212 Q220,250 332,212 L374,302 Z" fill="#9c8163"/>
+          <g stroke="#5e7d39" stroke-width="2.5" fill="none" opacity="0.6">
+            <path d="M120,186 Q220,150 320,186"/>
+            <path d="M108,222 Q220,188 332,222"/>
+            <path d="M120,258 Q220,232 320,258"/>
+          </g>
+          <g>
+            <rect x="150" y="120" width="24" height="38" fill="#e0973f"/>
+            <rect x="170" y="106" width="30" height="52" fill="#e9b04a"/>
+            <rect x="198" y="94" width="30" height="64" fill="#df8b4b"/>
+            <rect x="226" y="104" width="28" height="54" fill="#d56f43"/>
+            <rect x="252" y="112" width="28" height="46" fill="#edb277"/>
+          </g>
+          <g fill="#8c3f24">
+            <polygon points="150,120 162,108 174,120"/>
+            <polygon points="170,106 185,92 200,106"/>
+            <polygon points="198,94 213,80 228,94"/>
+            <polygon points="226,104 240,90 254,104"/>
+            <polygon points="252,112 266,99 280,112"/>
+          </g>
+          <rect x="288" y="84" width="16" height="74" fill="#ede4d0"/>
+          <polygon points="288,84 296,70 304,84" fill="#8c3f24"/>
+          <rect x="293" y="100" width="6" height="11" fill="#2f5860"/>
+          <g fill="#2f5860">
+            <rect x="157" y="132" width="7" height="10"/>
+            <rect x="180" y="122" width="8" height="11"/>
+            <rect x="208" y="112" width="8" height="11"/>
+            <rect x="236" y="118" width="8" height="11"/>
+            <rect x="262" y="124" width="8" height="11"/>
+          </g>
+          <g fill="#bfe3e6" opacity="0.55">
+            <rect x="58" y="326" width="42" height="3" rx="1.5"/>
+            <rect x="330" y="336" width="46" height="3" rx="1.5"/>
+          </g>
+        </svg>
+        <div class="didascalia">Corniglia — il paese sospeso sul promontorio, tra i vigneti</div>
+      </div>
+      <div class="borgo-testo">
+        <div class="borgo-num">03</div>
+        <h3>Corniglia <span class="epiteto">Il borgo sospeso tra cielo e vigne</span></h3>
+        <div class="borgo-facts">
+          <span>⛰️ ~150 abitanti</span>
+          <span>🌊 Unico borgo non sul mare</span>
+          <span>⏱️ Visita 1,5 h</span>
+        </div>
+        <h4>Storia &amp; identità</h4>
+        <p>Corniglia è il più piccolo e il più appartato delle Cinque Terre, l'unico a
+          <strong>non affacciarsi direttamente sul mare</strong>: sorge su un promontorio
+          roccioso a un centinaio di metri d'altezza, circondato su tre lati dai vigneti
+          terrazzati. Il nome deriva probabilmente dalla <em>gens Cornelia</em> romana:
+          anfore vinarie ritrovate a Pompei recano la scritta "Cornelia", segno che il
+          vino di queste terre veniva esportato già in epoca antica.</p>
+        <p>Il carattere di Corniglia è agricolo e contadino, fatto di vicoli silenziosi,
+          scale e piccole piazze. Si raggiunge dalla stazione salendo la
+          <strong>Lardarina</strong>, una lunga scalinata di mattoni, oppure con il bus
+          navetta. È il borgo dove la folla si dirada e si respira il ritmo lento delle
+          Cinque Terre di un tempo.</p>
+        <h4>Cosa vedere</h4>
+        <ul class="vedere-list">
+          <li><strong>La Lardarina</strong> — la scenografica scalinata di 33 rampe e 377
+            gradini che collega la stazione al borgo; in alternativa, il bus navetta.</li>
+          <li><strong>Belvedere di Santa Maria</strong> — la terrazza panoramica
+            all'estremità del promontorio, sospesa sul mare, con vista su gran parte
+            della costa.</li>
+          <li><strong>Chiesa di San Pietro</strong> — del 1334, gotico-ligure con rosone,
+            tra le più belle delle Cinque Terre; interno con elementi barocchi.</li>
+          <li><strong>Largo Taragio</strong> — la piazzetta centrale, cuore della vita
+            del borgo, con l'oratorio di Santa Caterina.</li>
+          <li><strong>Via Fieschi</strong> — la via principale, stretta tra le case di
+            pietra, costellata di botteghe, gelaterie e cantine.</li>
+          <li><strong>Le terrazze e i vigneti</strong> — i muri a secco che circondano il
+            borgo, paesaggio agricolo patrimonio UNESCO.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- ===== 04 · VERNAZZA ===== -->
+    <article class="borgo-full">
+      <div class="borgo-illu">
+        <svg viewBox="0 0 440 360" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustrazione di Vernazza">
+          <defs>
+            <linearGradient id="verSky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#e9f2f0"/><stop offset="1" stop-color="#a4d4d8"/>
+            </linearGradient>
+            <linearGradient id="verSea" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#2b8a9e"/><stop offset="1" stop-color="#134e5a"/>
+            </linearGradient>
+          </defs>
+          <rect width="440" height="360" fill="url(#verSky)"/>
+          <circle cx="66" cy="58" r="25" fill="#ffce7d" opacity="0.82"/>
+          <path d="M0,360 L0,138 Q60,128 112,202 L112,360 Z" fill="#728f44"/>
+          <path d="M440,360 L440,162 Q380,162 330,224 L330,360 Z" fill="#82a052"/>
+          <rect x="40" y="90" width="40" height="64" rx="3" fill="#d8c9a8"/>
+          <rect x="40" y="90" width="40" height="13" fill="#c6b48e"/>
+          <g fill="#8c3f24">
+            <rect x="42" y="90" width="7" height="9"/>
+            <rect x="56" y="90" width="7" height="9"/>
+            <rect x="71" y="90" width="7" height="9"/>
+          </g>
+          <rect x="54" y="114" width="11" height="16" fill="#2f5860"/>
+          <path d="M0,360 L0,300 Q220,256 440,300 L440,360 Z" fill="url(#verSea)"/>
+          <g>
+            <rect x="96" y="208" width="34" height="98" fill="#e7ab3f"/>
+            <rect x="128" y="186" width="34" height="120" fill="#dd854a"/>
+            <rect x="160" y="200" width="34" height="106" fill="#edb277"/>
+            <rect x="194" y="180" width="34" height="126" fill="#d56f43"/>
+            <rect x="228" y="196" width="34" height="110" fill="#e9b04a"/>
+            <rect x="262" y="206" width="34" height="100" fill="#df8b4b"/>
+            <rect x="296" y="214" width="32" height="92" fill="#edb277"/>
+          </g>
+          <g fill="#8c3f24">
+            <polygon points="96,208 113,193 130,208"/>
+            <polygon points="128,186 145,171 162,186"/>
+            <polygon points="160,200 177,185 194,200"/>
+            <polygon points="194,180 211,165 228,180"/>
+            <polygon points="228,196 245,181 262,196"/>
+            <polygon points="262,206 279,191 296,206"/>
+            <polygon points="296,214 312,200 328,214"/>
+          </g>
+          <rect x="338" y="168" width="22" height="124" fill="#ece2cc"/>
+          <polygon points="338,168 349,148 360,168" fill="#8c3f24"/>
+          <rect x="344" y="188" width="10" height="16" fill="#2f5860"/>
+          <circle cx="349" cy="224" r="6" fill="#2f5860"/>
+          <g fill="#2f5860">
+            <rect x="106" y="226" width="10" height="14"/><rect x="106" y="258" width="10" height="14"/>
+            <rect x="139" y="206" width="10" height="14"/><rect x="139" y="240" width="10" height="14"/>
+            <rect x="171" y="220" width="10" height="14"/><rect x="171" y="252" width="10" height="14"/>
+            <rect x="205" y="200" width="10" height="14"/><rect x="205" y="234" width="10" height="14"/>
+            <rect x="239" y="216" width="10" height="14"/><rect x="239" y="248" width="10" height="14"/>
+            <rect x="273" y="226" width="10" height="14"/><rect x="306" y="234" width="9" height="13"/>
+          </g>
+          <g>
+            <path d="M148,318 q15,15 30,0 Z" fill="#f6f1e6"/>
+            <rect x="161" y="305" width="3" height="14" fill="#8c3f24"/>
+            <polygon points="164,305 164,317 176,317" fill="#d56f43"/>
+            <path d="M226,330 q13,13 26,0 Z" fill="#f6f1e6"/>
+            <rect x="237" y="318" width="3" height="13" fill="#8c3f24"/>
+            <polygon points="240,318 240,329 251,329" fill="#2b8a9e"/>
+            <path d="M292,322 q12,12 24,0 Z" fill="#f6f1e6"/>
+          </g>
+        </svg>
+        <div class="didascalia">Vernazza — il porticciolo naturale e la torre del Castello Doria</div>
+      </div>
+      <div class="borgo-testo">
+        <div class="borgo-num">04</div>
+        <h3>Vernazza <span class="epiteto">La perla delle Cinque Terre</span></h3>
+        <div class="borgo-facts">
+          <span>🏰 ~800 abitanti</span>
+          <span>⚓ Unico porto naturale</span>
+          <span>⏱️ Visita 2–2,5 h</span>
+        </div>
+        <h4>Storia &amp; identità</h4>
+        <p>Vernazza è considerata la <strong>più scenografica</strong> delle Cinque Terre.
+          Nata intorno all'anno Mille, fu l'unico borgo della costa dotato di un porto
+          naturale e per questo ebbe un ruolo importante come base navale della
+          Repubblica di Genova, alla quale forniva navi ed equipaggi. Le difese contro
+          le incursioni dei pirati saraceni sono ancora ben visibili.</p>
+        <p>Il borgo si stringe attorno al porticciolo e alla piazzetta Marconi, con le
+          case-torri colorate che fanno da quinta. Nel <strong>2011</strong> Vernazza fu
+          colpita da una drammatica alluvione che sommerse la via principale sotto metri
+          di fango: una ricostruzione attenta e tenace ha restituito al paese il suo
+          volto. Oggi è di nuovo, semplicemente, una delle viste più belle del
+          Mediterraneo.</p>
+        <h4>Cosa vedere</h4>
+        <ul class="vedere-list">
+          <li><strong>Porticciolo e Piazza Marconi</strong> — la piazza affacciata
+            sull'acqua, con tavolini, barche e l'anfiteatro naturale di case colorate:
+            il cuore di Vernazza.</li>
+          <li><strong>Castello Doria</strong> — la fortificazione medievale sul
+            promontorio, con la torre cilindrica del Belforte; si sale per pochi euro e
+            la vista ripaga ogni gradino.</li>
+          <li><strong>Chiesa di Santa Margherita d'Antiochia</strong> — del 1318,
+            costruita proprio sugli scogli a filo d'acqua, con un campanile ottagonale
+            di 40 metri.</li>
+          <li><strong>La spiaggetta del porto</strong> — la piccola insenatura riparata
+            accanto alla piazza, ideale per una sosta e un bagno.</li>
+          <li><strong>Santuario di Nostra Signora di Reggio</strong> — sopra il paese,
+            tra gli ulivi, con una vista d'insieme sul borgo.</li>
+          <li><strong>L'arrivo dal Sentiero Azzurro</strong> — la vista dall'alto su
+            Vernazza scendendo da Monterosso: l'immagine più fotografata delle Cinque
+            Terre.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- ===== 05 · MONTEROSSO ===== -->
+    <article class="borgo-full">
+      <div class="borgo-illu">
+        <svg viewBox="0 0 440 360" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustrazione di Monterosso al Mare">
+          <defs>
+            <linearGradient id="monSky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#fde6c8"/><stop offset="0.55" stop-color="#d2eaef"/><stop offset="1" stop-color="#a9d7da"/>
+            </linearGradient>
+            <linearGradient id="monSea" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#2b8a9e"/><stop offset="1" stop-color="#1a6c7c"/>
+            </linearGradient>
+          </defs>
+          <rect width="440" height="360" fill="url(#monSky)"/>
+          <circle cx="352" cy="60" r="29" fill="#ffce7d" opacity="0.85"/>
+          <path d="M0,210 Q120,150 250,188 Q352,214 440,180 L440,260 L0,260 Z" fill="#7a9a4f"/>
+          <g>
+            <rect x="58" y="152" width="30" height="72" fill="#e7ab3f"/>
+            <rect x="88" y="136" width="30" height="88" fill="#dd854a"/>
+            <rect x="118" y="158" width="28" height="66" fill="#edb277"/>
+            <rect x="146" y="144" width="28" height="80" fill="#d56f43"/>
+            <rect x="174" y="160" width="28" height="64" fill="#e9b04a"/>
+            <rect x="202" y="150" width="28" height="74" fill="#df8b4b"/>
+          </g>
+          <g fill="#8c3f24">
+            <polygon points="58,152 73,139 88,152"/>
+            <polygon points="88,136 103,122 118,136"/>
+            <polygon points="118,158 132,145 146,158"/>
+            <polygon points="146,144 160,130 174,144"/>
+            <polygon points="174,160 188,147 202,160"/>
+            <polygon points="202,150 216,136 230,150"/>
+          </g>
+          <g fill="#2f5860">
+            <rect x="68" y="168" width="9" height="12"/><rect x="98" y="154" width="9" height="12"/>
+            <rect x="128" y="172" width="8" height="11"/><rect x="156" y="160" width="8" height="11"/>
+            <rect x="184" y="174" width="8" height="11"/><rect x="212" y="166" width="8" height="11"/>
+          </g>
+          <rect x="250" y="122" width="40" height="100" fill="#f2ece0"/>
+          <g fill="#3b3b3b">
+            <rect x="250" y="136" width="40" height="9"/><rect x="250" y="158" width="40" height="9"/>
+            <rect x="250" y="180" width="40" height="9"/><rect x="250" y="202" width="40" height="9"/>
+          </g>
+          <polygon points="250,122 270,100 290,122" fill="#9a4226"/>
+          <circle cx="270" cy="130" r="7" fill="#2b8a9e"/>
+          <rect y="250" width="440" height="50" fill="url(#monSea)"/>
+          <path d="M0,300 Q220,280 440,300 L440,360 L0,360 Z" fill="#ecdcb4"/>
+          <path d="M0,360 L0,250 Q36,250 52,300 L48,360 Z" fill="#9c8163"/>
+          <g>
+            <circle cx="25" cy="240" r="13" fill="#cdbfa0"/>
+            <rect x="17" y="252" width="16" height="42" rx="6" fill="#cdbfa0"/>
+            <rect x="5" y="224" width="9" height="34" rx="4" fill="#cdbfa0" transform="rotate(-28 9 241)"/>
+            <rect x="36" y="224" width="9" height="34" rx="4" fill="#cdbfa0" transform="rotate(28 40 241)"/>
+          </g>
+          <g>
+            <g transform="translate(112,302)"><rect x="-1.5" y="0" width="3" height="34" fill="#7a6a4a"/><path d="M-24,2 A24,24 0 0 1 24,2 Z" fill="#d56f43"/></g>
+            <g transform="translate(184,313)"><rect x="-1.5" y="0" width="3" height="34" fill="#7a6a4a"/><path d="M-24,2 A24,24 0 0 1 24,2 Z" fill="#2b8a9e"/></g>
+            <g transform="translate(258,306)"><rect x="-1.5" y="0" width="3" height="34" fill="#7a6a4a"/><path d="M-24,2 A24,24 0 0 1 24,2 Z" fill="#e9b04a"/></g>
+            <g transform="translate(332,316)"><rect x="-1.5" y="0" width="3" height="34" fill="#7a6a4a"/><path d="M-24,2 A24,24 0 0 1 24,2 Z" fill="#d56f43"/></g>
+            <g transform="translate(400,305)"><rect x="-1.5" y="0" width="3" height="34" fill="#7a6a4a"/><path d="M-24,2 A24,24 0 0 1 24,2 Z" fill="#2b8a9e"/></g>
+          </g>
+        </svg>
+        <div class="didascalia">Monterosso al Mare — la spiaggia, la chiesa a fasce e la statua del Gigante</div>
+      </div>
+      <div class="borgo-testo">
+        <div class="borgo-num">05</div>
+        <h3>Monterosso al Mare <span class="epiteto">Il borgo del mare e dei poeti</span></h3>
+        <div class="borgo-facts">
+          <span>🏖️ ~1.400 abitanti</span>
+          <span>🧭 Il borgo più a ovest</span>
+          <span>⏱️ Visita 2 h</span>
+        </div>
+        <h4>Storia &amp; identità</h4>
+        <p>Monterosso è il <strong>più grande</strong> e il più settentrionale delle
+          Cinque Terre, nonché l'unico con spiagge ampie e sabbiose. Il borgo è diviso
+          in due parti collegate da un tunnel: il centro storico medievale e il quartiere
+          di <strong>Fegina</strong>, più moderno, nato come zona balneare. La tradizione
+          fa risalire le origini al VII secolo.</p>
+        <p>Monterosso è terra di mare e di poesia: qui il premio Nobel
+          <strong>Eugenio Montale</strong> trascorreva le estati dell'infanzia, e questi
+          paesaggi entrarono nei suoi versi. È anche il borgo delle acciughe salate,
+          presidio Slow Food, e dei limoni. Sul lungomare di Fegina veglia dal 1910 la
+          grande statua del <strong>Gigante</strong>, un Nettuno di cemento alto quasi
+          14 metri, segnato dai bombardamenti e dalle mareggiate ma sempre al suo posto.</p>
+        <h4>Cosa vedere</h4>
+        <ul class="vedere-list">
+          <li><strong>Il centro storico</strong> — il dedalo di vicoli medievali, con
+            botteghe e la torre Aurora sulla collina che separa le due parti del borgo.</li>
+          <li><strong>Chiesa di San Giovanni Battista</strong> — del 1307, con la
+            caratteristica facciata a fasce bianche e nere di marmo e un grande rosone.</li>
+          <li><strong>Convento dei Cappuccini</strong> — sul colle di San Cristoforo; la
+            chiesa di San Francesco custodisce una Crocifissione attribuita ad Anton
+            van Dyck.</li>
+          <li><strong>La statua del Gigante</strong> — il colossale Nettuno che sorregge
+            la terrazza, simbolo di Fegina, sul lungomare.</li>
+          <li><strong>Le spiagge di Fegina</strong> — le distese di sabbia e ciottoli
+            più estese delle Cinque Terre, attrezzate e libere.</li>
+          <li><strong>I luoghi di Montale</strong> — la passeggiata a mare di Fegina,
+            legata alla memoria del poeta che qui passava le estati.</li>
+        </ul>
+      </div>
+    </article>
+
+  </div>
+</section>
+
 <!-- ===================== ITINERARIO ===================== -->
-<section class="sezione" id="itinerario">
+<section class="sezione alt" id="itinerario">
   <div class="wrap">
     <div class="occhiello">Giorno per giorno</div>
     <h2 class="titolo-sez">L'itinerario</h2>
@@ -813,34 +1392,9 @@
       una domenica piena tra trekking e borghi, una mattina tranquilla prima del rientro.
       Gli orari sono indicativi — i treni passano ogni 15–30′, quindi c'è sempre margine.</p>
 
-    <!-- i cinque borghi -->
-    <div class="borghi-strip">
-      <div class="borgo-mini">
-        <div class="casa">🏘️</div><h4>Riomaggiore</h4>
-        <p>Marina coloratissima, vicoli ripidi.</p>
-        <span class="tempo">1–1,5 h</span>
-      </div>
-      <div class="borgo-mini">
-        <div class="casa">🏠</div><h4>Manarola</h4>
-        <p>Il più fotografato, case sull'acqua.</p>
-        <span class="tempo">1,5–2 h</span>
-      </div>
-      <div class="borgo-mini">
-        <div class="casa">⛰️</div><h4>Corniglia</h4>
-        <p>L'unico in collina, quieto e autentico.</p>
-        <span class="tempo">1,5 h</span>
-      </div>
-      <div class="borgo-mini">
-        <div class="casa">🏰</div><h4>Vernazza</h4>
-        <p>Porticciolo e castello: il più scenografico.</p>
-        <span class="tempo">2–2,5 h</span>
-      </div>
-      <div class="borgo-mini">
-        <div class="casa">🏖️</div><h4>Monterosso</h4>
-        <p>Il più grande, spiagge e lungomare.</p>
-        <span class="tempo">2 h</span>
-      </div>
-    </div>
+    <p class="intro-sez" style="margin-bottom:26px;">Vuoi conoscere meglio i borghi che
+      attraverserai? Trovi storia, identità e tutto il "cosa vedere" nella sezione
+      <a href="#borghi">I borghi</a>.</p>
 
     <!-- tab -->
     <div class="tabs">
@@ -1270,7 +1824,7 @@
 </section>
 
 <!-- ===================== TREKKING ===================== -->
-<section class="sezione alt" id="trekking">
+<section class="sezione" id="trekking">
   <div class="wrap">
     <div class="occhiello">A piedi sul Sentiero Verde Azzurro</div>
     <h2 class="titolo-sez">I sentieri scelti</h2>
@@ -1363,7 +1917,7 @@
 </section>
 
 <!-- ===================== RISTORANTI ===================== -->
-<section class="sezione" id="ristoranti">
+<section class="sezione alt" id="ristoranti">
   <div class="wrap">
     <div class="occhiello">Dove mangiare</div>
     <h2 class="titolo-sez">Ristoranti &amp; sapori</h2>
@@ -1547,7 +2101,7 @@
 </section>
 
 <!-- ===================== CHECKLIST ===================== -->
-<section class="sezione alt" id="checklist">
+<section class="sezione" id="checklist">
   <div class="wrap">
     <div class="occhiello">Prima di partire</div>
     <h2 class="titolo-sez">Checklist cosa portare</h2>
@@ -1607,7 +2161,7 @@
 </section>
 
 <!-- ===================== LINK UTILI ===================== -->
-<section class="sezione" id="link">
+<section class="sezione alt" id="link">
   <div class="wrap">
     <div class="occhiello">Per organizzarsi</div>
     <h2 class="titolo-sez">Link utili &amp; numeri</h2>
