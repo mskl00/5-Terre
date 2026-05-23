@@ -449,6 +449,26 @@
     .tl-item { gap: 10px; }
   }
 
+  /* ============ TAPPE INTERNE AL BORGO ============ */
+  .tappe-borgo { margin-top: 11px; }
+  .tb-titolo {
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--terra); margin-bottom: 3px;
+  }
+  .tb-item {
+    display: flex; gap: 10px; align-items: baseline;
+    padding: 6px 0; border-bottom: 1px dotted #e9dec3;
+  }
+  .tb-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .tb-nome { flex: 1; font-size: 0.85rem; color: var(--grigio); }
+  .tb-nome::before { content: "\25B8  "; color: var(--terra-light); font-weight: 700; }
+  .tb-nome strong { color: var(--inchiostro); }
+  .tb-durata {
+    flex-shrink: 0; font-size: 0.71rem; font-weight: 700;
+    color: var(--mare-deep); background: var(--mare-pale);
+    padding: 2px 9px; border-radius: 999px; white-space: nowrap;
+  }
+
   /* ============ TREKKING ============ */
   .trek-card {
     background: var(--bianco); border-radius: var(--radius);
@@ -1500,6 +1520,13 @@
             <h4>Riomaggiore</h4>
             <p>Discesa alla marina dalle case verticali color pastello, foto dal molo
               e dagli scogli, vicoli in salita. Il borgo "porta" delle Cinque Terre.</p>
+            <div class="tappe-borgo">
+              <div class="tb-titolo">Tappe nel borgo</div>
+              <div class="tb-item"><span class="tb-nome"><strong>La marina e il molo</strong> — foto tra le barche colorate in secca</span><span class="tb-durata">20 min</span></div>
+              <div class="tb-item"><span class="tb-nome"><strong>Via Colombo</strong> — la via principale tra botteghe e friggitorie</span><span class="tb-durata">15 min</span></div>
+              <div class="tb-item"><span class="tb-nome"><strong>Vicoli alti e Chiesa di San Giovanni Battista</strong></span><span class="tb-durata">20 min</span></div>
+              <div class="tb-item"><span class="tb-nome"><strong>Scogliera</strong> — punto panoramico verso il mare aperto</span><span class="tb-durata">10 min</span></div>
+            </div>
             <div class="tl-meta"><span>📸 marina</span><span>permanenza ~1 h</span></div>
           </div>
         </div>
@@ -1522,7 +1549,14 @@
             <h4>Manarola</h4>
             <p>Il borgo più fotografato d'Italia. Salita al punto panoramico di
               <strong>Punta Bonfiglio</strong> per la vista cartolina sulle case sull'acqua.</p>
-            <div class="tl-meta"><span>📸 Punta Bonfiglio</span><span>permanenza ~2 h</span></div>
+            <div class="tappe-borgo">
+              <div class="tb-titolo">Tappe nel borgo</div>
+              <div class="tb-item"><span class="tb-nome"><strong>Lo scivolo delle barche e il porticciolo</strong> — il cuore del borgo</span><span class="tb-durata">15 min</span></div>
+              <div class="tb-item"><span class="tb-nome"><strong>Punta Bonfiglio</strong> — salita al parco e al punto-foto panoramico</span><span class="tb-durata">25 min</span></div>
+              <div class="tb-item"><span class="tb-nome"><strong>Chiesa di San Lorenzo e il campanile</strong></span><span class="tb-durata">15 min</span></div>
+              <div class="tb-item"><span class="tb-nome"><strong>Vicoli e cantine</strong> — un assaggio di Sciacchetrà</span><span class="tb-durata">20 min</span></div>
+            </div>
+            <div class="tl-meta"><span>📸 Punta Bonfiglio</span><span>permanenza ~1h15</span></div>
           </div>
         </div>
 
@@ -1596,6 +1630,13 @@
             <h4>Monterosso al Mare</h4>
             <p>Il borgo più grande, con due anime: il centro storico e la spiaggia di
               Fegina. Passeggiata sul lungomare e statua del <strong>Gigante</strong>.</p>
+            <div class="tappe-borgo">
+              <div class="tb-titolo">Tappe nel borgo</div>
+              <div class="tb-item"><span class="tb-nome"><strong>Lungomare di Fegina e statua del Gigante</strong></span><span class="tb-durata">20 min</span></div>
+              <div class="tb-item"><span class="tb-nome"><strong>Spiaggia di Fegina</strong> — due passi sulla sabbia</span><span class="tb-durata">15 min</span></div>
+              <div class="tb-item"><span class="tb-nome"><strong>Centro storico</strong> — vicoli e botteghe oltre il tunnel</span><span class="tb-durata">15 min</span></div>
+              <div class="tb-item"><span class="tb-nome"><strong>Chiesa di San Giovanni Battista</strong> — la facciata a fasce</span><span class="tb-durata">10 min</span></div>
+            </div>
             <div class="tl-meta"><span>📸 lungomare</span><span>permanenza ~1 h</span></div>
           </div>
         </div>
@@ -1641,7 +1682,15 @@
             <p>Salita al <strong>Castello Doria</strong> e alla torre di guardia, chiesa di
               Santa Margherita d'Antiochia affacciata sull'acqua, caffè sul porticciolo.
               Il momento di relax dopo il trekking.</p>
-            <div class="tl-meta"><span>🏰 Castello Doria</span><span>permanenza ~2,5 h</span></div>
+            <div class="tappe-borgo">
+              <div class="tb-titolo">Tappe nel borgo</div>
+              <div class="tb-item"><span class="tb-nome"><strong>Piazza Marconi e il porticciolo</strong> — caffè e atmosfera</span><span class="tb-durata">20 min</span></div>
+              <div class="tb-item"><span class="tb-nome"><strong>Castello Doria e torre del Belforte</strong> — salita e vista</span><span class="tb-durata">30 min</span></div>
+              <div class="tb-item"><span class="tb-nome"><strong>Chiesa di Santa Margherita d'Antiochia</strong></span><span class="tb-durata">15 min</span></div>
+              <div class="tb-item"><span class="tb-nome"><strong>Spiaggetta del porto e gli scogli</strong></span><span class="tb-durata">15 min</span></div>
+              <div class="tb-item"><span class="tb-nome"><strong>Vicoli e via Roma</strong> — tra le botteghe</span><span class="tb-durata">10 min</span></div>
+            </div>
+            <div class="tl-meta"><span>🏰 Castello Doria</span><span>permanenza ~1h30</span></div>
           </div>
         </div>
 
@@ -1747,7 +1796,14 @@
             <p>Il borgo più tranquillo e autentico: vicoli silenziosi, la chiesa di
               San Pietro, la terrazza panoramica di <strong>Santa Maria</strong> sospesa
               tra cielo e mare.</p>
-            <div class="tl-meta"><span>📸 belvedere</span><span>permanenza ~1,5 h</span></div>
+            <div class="tappe-borgo">
+              <div class="tb-titolo">Tappe nel borgo</div>
+              <div class="tb-item"><span class="tb-nome"><strong>Largo Taragio</strong> — la piazzetta centrale del borgo</span><span class="tb-durata">15 min</span></div>
+              <div class="tb-item"><span class="tb-nome"><strong>Chiesa di San Pietro</strong></span><span class="tb-durata">15 min</span></div>
+              <div class="tb-item"><span class="tb-nome"><strong>Belvedere di Santa Maria</strong> — la terrazza panoramica</span><span class="tb-durata">20 min</span></div>
+              <div class="tb-item"><span class="tb-nome"><strong>Via Fieschi</strong> — la via principale tra le botteghe</span><span class="tb-durata">10 min</span></div>
+            </div>
+            <div class="tl-meta"><span>📸 belvedere</span><span>permanenza ~1 h</span></div>
           </div>
         </div>
 
